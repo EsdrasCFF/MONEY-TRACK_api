@@ -23,6 +23,8 @@ export default [
       ...pluginJs.configs.recommended.rules,
       ...tseslint.configs.recommended.rules,
       'prettier/prettier': 'error', // Ativa o Prettier como uma regra de ESLint,
+      'simple-import-sort/exports': 'error', // Adiciona a regra para organizar exportações
+      'simple-import-sort/imports': 'error', // Adiciona a regra para organizar importações
     },
   },
 ]
