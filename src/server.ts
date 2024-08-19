@@ -1,7 +1,7 @@
-import fastify from 'fastify'
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
 import fastifyCors from '@fastify/cors'
 import { errorHandler } from './error-handler'
+import fastify from 'fastify'
 
 const app = fastify()
 

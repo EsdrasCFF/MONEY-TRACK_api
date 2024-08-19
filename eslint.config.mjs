@@ -1,9 +1,9 @@
-import globals from 'globals'
 import pluginJs from '@eslint/js'
 import tseslint from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
 import prettierPlugin from 'eslint-plugin-prettier'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import globals from 'globals'
 
 // Configuração Flat
 export default [
@@ -17,12 +17,12 @@ export default [
     plugins: {
       '@typescript-eslint': tseslint,
       prettier: prettierPlugin,
-      'simple-import-sort': simpleImportSort
+      'simple-import-sort': simpleImportSort,
     },
     rules: {
       ...pluginJs.configs.recommended.rules,
       ...tseslint.configs.recommended.rules,
-      'prettier/prettier': 'error', // Ativa o Prettier como uma regra de ESLint
+      'prettier/prettier': 'error', // Ativa o Prettier como uma regra de ESLint,
     },
   },
 ]
