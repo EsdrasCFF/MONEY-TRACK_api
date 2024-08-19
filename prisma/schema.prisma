@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id
+  firstName String @map("first_name")
+  lastName String @map("last_name")
+  document String?
+
+  Accounts Account[]
+  Categories Category[]
+
+  @@map("users")
+}
+
+model Account {
+  id String @id @default(cuid())
+  userId String @map("user_id")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name String
+
+  Transactions Transaction[]
+
+  @@map("accounts")
+}
+
+enum CATEGORY_TYPE {
+  INCOME
+  EXPENSE
+}
+
+model Category {
+  id String @id @default(cuid())
+  userId String @map("user_id")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type CATEGORY_TYPE
+  name String
+
+  Transactions Transaction[]
+
+  @@map("categories")
+}
+
+enum PAYMENT_METHOD {
+  CARTAO_CREDITO
+  CARTAO_DEBITO
+  PIX
+  DINHEIRO
+  TRANSFERENCIA
+  BOLETO
+}
+
+model Transaction {
+  id String @id @default(cuid())
+  accountId String @map("account_id")
+  paymentMethod PAYMENT_METHOD @map("payment_method")
+  categoryId String? @map("category_id")
+  payee String
+  amount Int
+  type TRANSACTION_TYPE
+  date DateTime
+  description String?
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@map("transactions")
+}
+
+enum TRANSACTION_TYPE {
+  EXPENSE
+  INCOME
+  INVESTMENT
+}
