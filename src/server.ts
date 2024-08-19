@@ -8,5 +8,5 @@ app
     console.log("Server is running");
   })
   .catch((e) => {
-    console.log("Initial Server Error:", e);
+    console.error("Failed to server start:", e);
   });
