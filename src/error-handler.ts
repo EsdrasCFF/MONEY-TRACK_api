@@ -1,7 +1,7 @@
-import { FastifyInstance } from "fastify";
+import { FastifyInstance } from 'fastify'
 
-type FastifyErrorHandler = FastifyInstance["errorHandler"];
+type FastifyErrorHandler = FastifyInstance['errorHandler']
 
 export const errorHandler: FastifyErrorHandler = (error, request, response) => {
-  return response.status(500).send({ message: "Internal Server Errorn" });
-};
+  return response.status(500).send({ message: 'Internal Server Errorn' })
+}

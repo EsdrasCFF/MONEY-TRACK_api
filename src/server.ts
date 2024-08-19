@@ -1,27 +1,24 @@
-import fastify from "fastify";
-import {
-  serializerCompiler,
-  validatorCompiler,
-} from "fastify-type-provider-zod";
-import { errorHandler } from "./error-handler";
-import fastifyCors from "@fastify/cors";
+import fastify from 'fastify'
+import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
+import { errorHandler } from './error-handler'
+import fastifyCors from '@fastify/cors'
 
-const app = fastify();
+const app = fastify()
 
-app.setValidatorCompiler(validatorCompiler);
-app.setSerializerCompiler(serializerCompiler);
+app.setValidatorCompiler(validatorCompiler)
+app.setSerializerCompiler(serializerCompiler)
 
 app.register(fastifyCors, {
-  origin: "*",
-});
+  origin: '*',
+})
 
-app.setErrorHandler(errorHandler);
+app.setErrorHandler(errorHandler)
 
 app
   .listen({ port: 3333 })
   .then(() => {
-    console.log("Server is running");
+    console.log('Server is running')
   })
   .catch((e) => {
-    console.error("Failed to server start:", e);
-  });
+    console.error('Failed to server start:', e)
+  })
