@@ -25,7 +25,8 @@ export default [
       'prettier/prettier': 'error', // Ativa o Prettier como uma regra de ESLint,
       'simple-import-sort/exports': 'warn', // Adiciona a regra para organizar exportações
       'simple-import-sort/imports': 'warn', // Adiciona a regra para organizar importações
-      'no-unused-vars': 'warn',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     },
   },
 ]
