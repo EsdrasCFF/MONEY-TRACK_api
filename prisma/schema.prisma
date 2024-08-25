@@ -18,6 +18,7 @@ model User {
   firstName String @map("first_name")
   lastName String @map("last_name")
   document String?
+  email String @unique
 
   Accounts Account[]
   Categories Category[]
