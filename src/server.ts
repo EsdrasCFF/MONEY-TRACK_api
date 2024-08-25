@@ -7,7 +7,6 @@ import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod
 
 import { errorHandler } from './error-handler'
 import { authMiddleware } from './middlewares/auth'
-import { createAccount } from './routes/create-account'
 import { createUser } from './routes/users/create-user'
 
 const app = fastify()
@@ -28,7 +27,6 @@ app.register(clerkPlugin, {
 
 app.addHook('preHandler', authMiddleware)
 
-app.register(createAccount)
 app.register(createUser)
 
 const port = Number(process.env.PORT) || 3333
