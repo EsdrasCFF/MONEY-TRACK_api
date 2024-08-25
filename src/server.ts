@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import { clerkPlugin } from '@clerk/fastify'
 import fastifyCors from '@fastify/cors'
 import fastify from 'fastify'
@@ -5,6 +7,8 @@ import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod
 
 import { errorHandler } from './error-handler'
 import { authMiddleware } from './middlewares/auth'
+import { createAccount } from './routes/create-account'
+import { createUser } from './routes/users/create-user'
 
 const app = fastify()
 
@@ -17,9 +21,15 @@ app.register(fastifyCors, {
 
 app.setErrorHandler(errorHandler)
 
-app.register(clerkPlugin)
+app.register(clerkPlugin, {
+  publishableKey: process.env.CLERK_PUBLISHABLE_KEY,
+  secretKey: process.env.CLERK_SECRET_KEY,
+})
 
 app.addHook('preHandler', authMiddleware)
+
+app.register(createAccount)
+app.register(createUser)
 
 const port = Number(process.env.PORT) || 3333
 
