@@ -1,7 +1,7 @@
 import { Account } from '@prisma/client'
 
 import { CreateAccountProps } from '../../repositories/accounts/create-account'
-import { BadRequest, Unauthorized } from '../../routes/_errors/erros-instance'
+import { BadRequest, Unauthorized } from '../../routes/_errors/errors-instance'
 import { ICreateAccountService } from '../../services/accounts/create-account'
 
 export interface ICreateAccountController {
