@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 import { getAuth } from '@clerk/fastify'
 import { FastifyError, FastifyReply, FastifyRequest } from 'fastify'
 
@@ -13,6 +11,8 @@ export const authMiddleware = (request: FastifyRequest, reply: FastifyReply, don
   if (!userId) {
     return reply.code(403).send({ error: { code: 'Unauthorized' } })
   }
+
+  request.user = { id: userId }
 
   done()
 }
