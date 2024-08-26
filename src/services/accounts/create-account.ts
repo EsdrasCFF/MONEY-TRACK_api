@@ -2,7 +2,7 @@ import { Account } from '@prisma/client'
 
 import { CreateAccountProps, ICreateAccountRepository } from '../../repositories/accounts/create-account'
 import { IGetAccountByNameRepository } from '../../repositories/accounts/get-account-by-name'
-import { BadRequest } from '../../routes/_errors/erros-instance'
+import { BadRequest } from '../../routes/_errors/errors-instance'
 
 export interface ICreateAccountService {
   execute(createAccountParams: CreateAccountProps): Promise<Account>

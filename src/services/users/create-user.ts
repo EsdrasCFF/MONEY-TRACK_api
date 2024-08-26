@@ -2,7 +2,7 @@ import { User } from '@prisma/client'
 
 import { CreateUserProps, ICreateUserRepository } from '../../repositories/users/create-user'
 import { IGetUserByEmailRepository } from '../../repositories/users/get-user-by-email'
-import { BadRequest } from '../../routes/_errors/erros-instance'
+import { BadRequest } from '../../routes/_errors/errors-instance'
 
 export interface ICreateUserService {
   execute(createUserParams: CreateUserProps): Promise<User>
