@@ -4,9 +4,9 @@ import { User } from '@prisma/client'
 import { FastifyRequest } from 'fastify'
 import { Webhook } from 'svix'
 
-import { BadRequest } from '../routes/_errors/erros-instance'
-import { WebHookData } from '../routes/users/create-user'
-import { ICreateUserService } from '../services/users/create-user'
+import { BadRequest } from '../../routes/_errors/erros-instance'
+import { WebHookData } from '../../routes/users/create-user'
+import { ICreateUserService } from '../../services/users/create-user'
 
 interface ICreateUserController {
   execute(json: WebHookData, request: FastifyRequest): Promise<User>
