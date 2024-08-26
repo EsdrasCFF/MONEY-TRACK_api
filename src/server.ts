@@ -18,8 +18,6 @@ app.register(fastifyCors, {
   origin: '*',
 })
 
-app.setErrorHandler(errorHandler)
-
 app.register(clerkPlugin, {
   publishableKey: process.env.CLERK_PUBLISHABLE_KEY,
   secretKey: process.env.CLERK_SECRET_KEY,
@@ -28,6 +26,8 @@ app.register(clerkPlugin, {
 app.addHook('preHandler', authMiddleware)
 
 app.register(createUser)
+
+app.setErrorHandler(errorHandler)
 
 const port = Number(process.env.PORT) || 3333
 
