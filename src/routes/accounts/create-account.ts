@@ -12,7 +12,7 @@ const createAccountSchema = z.object({
   userId: z.string({ required_error: 'UserId is required!' }).trim(),
 })
 
-export function createAccount(app: FastifyInstance) {
+export async function createAccount(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
     '/api/accounts',
     {
