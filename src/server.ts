@@ -7,6 +7,8 @@ import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod
 
 import { errorHandler } from './error-handler'
 import { authMiddleware } from './middlewares/auth'
+import { createAccount } from './routes/accounts/create-account'
+import { getAccounts } from './routes/accounts/get-accounts'
 import { createUser } from './routes/users/create-user'
 
 const app = fastify()
@@ -26,6 +28,9 @@ app.register(clerkPlugin, {
 app.addHook('preHandler', authMiddleware)
 
 app.register(createUser)
+
+app.register(createAccount)
+app.register(getAccounts)
 
 app.setErrorHandler(errorHandler)
 
