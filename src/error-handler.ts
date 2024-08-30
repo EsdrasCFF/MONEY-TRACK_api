@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify'
 import { ZodError } from 'zod'
 
-import { BadRequest, ServerError, Unauthorized } from './routes/_errors/errors-instance'
+import { BadRequest, NotFound, ServerError, Unauthorized } from './routes/_errors/errors-instance'
 
 type FastifyErrorHandler = FastifyInstance['errorHandler']
 
@@ -31,7 +31,14 @@ export const errorHandler: FastifyErrorHandler = (error, request, response) => {
       error: { code: 'INTERNAL_SERVER_ERROR' },
     })
   }
-  console.log(error)
+
+  if (error instanceof NotFound) {
+    return response.code(404).send({
+      error: { code: error.message },
+    })
+  }
+
+  console.log('Error:', error)
 
   return response.status(500).send({ message: 'Internal Server Error' })
 }
