@@ -1,16 +1,17 @@
 import { db } from '@/lib/prisma'
 
 export interface IBulkDeleteAccountsRepository {
-  execute(ids: string[]): Promise<number>
+  execute(ids: string[], userId: string): Promise<number>
 }
 
 export class BulkDeleteAccountsRepository implements IBulkDeleteAccountsRepository {
-  async execute(ids: string[]) {
+  async execute(ids: string[], userId: string) {
     const result = await db.account.deleteMany({
       where: {
         id: {
           in: ids,
         },
+        userId,
       },
     })
 
