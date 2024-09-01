@@ -14,11 +14,15 @@ export class DeleteAccountService implements IDeleteAccountService {
     private deleteAccountRepository: IDeleteAccountRepository
   ) {}
 
-  async execute(accountId: string) {
+  async execute(accountId: string, userId: string) {
     const accountExists = await this.getAccountByIdRepository.execute(accountId)
 
     if (!accountExists) {
       throw new NotFound('Account not found')
+    }
+
+    if (userId != accountExists.userId) {
+      throw new BadRequest('UserId provided is not valid!')
     }
 
     const deletedAccount = await this.deleteAccountRepository.execute(accountId)
