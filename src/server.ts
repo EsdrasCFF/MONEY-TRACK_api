@@ -10,6 +10,7 @@ import { authMiddleware } from './middlewares/auth'
 import { bulkDeleteAccounts } from './routes/accounts/bulk-delete-accounts'
 import { createAccount } from './routes/accounts/create-account'
 import { deleteAccount } from './routes/accounts/delete-account'
+import { getAccount } from './routes/accounts/get-account'
 import { getAccounts } from './routes/accounts/get-accounts'
 import { createUser } from './routes/users/create-user'
 
@@ -35,6 +36,7 @@ app.register(createAccount)
 app.register(getAccounts)
 app.register(bulkDeleteAccounts)
 app.register(deleteAccount)
+app.register(getAccount)
 
 app.setErrorHandler(errorHandler)
 
