@@ -2,7 +2,7 @@ import { Account } from '@prisma/client'
 
 import { db } from '@/lib/prisma'
 
-interface UpdateAccountParams {
+export interface UpdateAccountParams {
   accountId: string
   name: string
 }
