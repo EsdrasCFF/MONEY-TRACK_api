@@ -7,7 +7,7 @@ import { GetAccountByIdRepository } from '@/repositories/accounts/get-account-by
 import { UpdateAccountRepository } from '@/repositories/accounts/update-account'
 import { UpdateAccountService } from '@/services/accounts/update-account'
 
-export function updateAccount(app: FastifyInstance) {
+export async function updateAccount(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().patch(
     '/api/accounts/:accountId',
     {
