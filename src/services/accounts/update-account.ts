@@ -4,7 +4,7 @@ import { IGetAccountByIdRepository } from '@/repositories/accounts/get-account-b
 import { IUpdateAccountRepository } from '@/repositories/accounts/update-account'
 import { Forbidden, NotFound } from '@/routes/_errors/errors-instance'
 
-interface UpdateAccountProps {
+export interface UpdateAccountProps {
   userId: string
   accountId: string
   name: string
