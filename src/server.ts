@@ -12,6 +12,7 @@ import { createAccount } from './routes/accounts/create-account'
 import { deleteAccount } from './routes/accounts/delete-account'
 import { getAccount } from './routes/accounts/get-account'
 import { getAccounts } from './routes/accounts/get-accounts'
+import { updateAccount } from './routes/accounts/update-account'
 import { createUser } from './routes/users/create-user'
 
 const app = fastify()
@@ -37,6 +38,7 @@ app.register(getAccounts)
 app.register(bulkDeleteAccounts)
 app.register(deleteAccount)
 app.register(getAccount)
+app.register(updateAccount)
 
 app.setErrorHandler(errorHandler)
 
