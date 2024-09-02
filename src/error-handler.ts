@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify'
 import { ZodError } from 'zod'
 
-import { BadRequest, NotFound, ServerError, Unauthorized } from './routes/_errors/errors-instance'
+import { BadRequest, Forbidden, NotFound, ServerError, Unauthorized } from './routes/_errors/errors-instance'
 
 type FastifyErrorHandler = FastifyInstance['errorHandler']
 
@@ -34,6 +34,12 @@ export const errorHandler: FastifyErrorHandler = (error, request, response) => {
 
   if (error instanceof NotFound) {
     return response.code(404).send({
+      error: { code: error.message },
+    })
+  }
+
+  if (error instanceof Forbidden) {
+    return response.code(403).send({
       error: { code: error.message },
     })
   }
