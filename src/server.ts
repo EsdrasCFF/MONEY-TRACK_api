@@ -13,6 +13,7 @@ import { deleteAccount } from './routes/accounts/delete-account'
 import { getAccount } from './routes/accounts/get-account'
 import { getAccounts } from './routes/accounts/get-accounts'
 import { updateAccount } from './routes/accounts/update-account'
+import { getCategories } from './routes/categories/get-categories'
 import { createUser } from './routes/users/create-user'
 
 const app = fastify()
@@ -33,12 +34,16 @@ app.addHook('preHandler', authMiddleware)
 
 app.register(createUser)
 
+//accouts api routes
 app.register(createAccount)
 app.register(getAccounts)
 app.register(bulkDeleteAccounts)
 app.register(deleteAccount)
 app.register(getAccount)
 app.register(updateAccount)
+
+//categories api routes
+app.register(getCategories)
 
 app.setErrorHandler(errorHandler)
 
