@@ -40,6 +40,7 @@ model Account {
 enum CATEGORY_TYPE {
   INCOME
   EXPENSE
+  INVESTMENT
 }
 
 model Category {
