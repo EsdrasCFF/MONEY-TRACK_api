@@ -17,6 +17,7 @@ import { bulkDeleteCategories } from './routes/categories/bulk-delete-categories
 import { createCategory } from './routes/categories/create-category'
 import { deleteCategory } from './routes/categories/delete-category'
 import { getCategories } from './routes/categories/get-categories'
+import { getCategory } from './routes/categories/get-category'
 import { updateCategory } from './routes/categories/update-category'
 import { createUser } from './routes/users/create-user'
 
@@ -52,6 +53,7 @@ app.register(createCategory)
 app.register(bulkDeleteCategories)
 app.register(deleteCategory)
 app.register(updateCategory)
+app.register(getCategory)
 
 app.setErrorHandler(errorHandler)
 
