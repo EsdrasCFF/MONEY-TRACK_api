@@ -13,6 +13,7 @@ import { deleteAccount } from './routes/accounts/delete-account'
 import { getAccount } from './routes/accounts/get-account'
 import { getAccounts } from './routes/accounts/get-accounts'
 import { updateAccount } from './routes/accounts/update-account'
+import { bulkDeleteCategories } from './routes/categories/bulk-delete-categories'
 import { createCategory } from './routes/categories/create-category'
 import { getCategories } from './routes/categories/get-categories'
 import { createUser } from './routes/users/create-user'
@@ -46,6 +47,7 @@ app.register(updateAccount)
 //categories api routes
 app.register(getCategories)
 app.register(createCategory)
+app.register(bulkDeleteCategories)
 
 app.setErrorHandler(errorHandler)
 
