@@ -17,6 +17,7 @@ import { bulkDeleteCategories } from './routes/categories/bulk-delete-categories
 import { createCategory } from './routes/categories/create-category'
 import { deleteCategory } from './routes/categories/delete-category'
 import { getCategories } from './routes/categories/get-categories'
+import { updateCategory } from './routes/categories/update-category'
 import { createUser } from './routes/users/create-user'
 
 const app = fastify()
@@ -50,6 +51,7 @@ app.register(getCategories)
 app.register(createCategory)
 app.register(bulkDeleteCategories)
 app.register(deleteCategory)
+app.register(updateCategory)
 
 app.setErrorHandler(errorHandler)
 
