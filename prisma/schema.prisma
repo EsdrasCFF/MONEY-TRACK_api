@@ -62,12 +62,13 @@ enum PAYMENT_METHOD {
   DINHEIRO
   TRANSFERENCIA
   BOLETO
+  DEBITO_CONTA
 }
 
 model Transaction {
   id String @id @default(cuid())
   accountId String @map("account_id")
-  paymentMethod PAYMENT_METHOD @map("payment_method")
+  paymentMethod PAYMENT_METHOD? @map("payment_method")
   categoryId String? @map("category_id")
   payee String
   amount Int
