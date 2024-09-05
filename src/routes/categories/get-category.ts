@@ -20,6 +20,7 @@ export async function getCategory(app: FastifyInstance) {
               id: z.string(),
               name: z.string(),
               userId: z.string(),
+              type: z.string(),
             }),
           }),
         },
