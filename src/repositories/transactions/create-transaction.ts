@@ -1,7 +1,8 @@
-import { db } from '@/lib/prisma'
-import { PAYMENT_METHOD, TRANSACTION_TYPE, Transaction } from '@prisma/client'
+import { PAYMENT_METHOD, Transaction, TRANSACTION_TYPE } from '@prisma/client'
 
-interface CreateTransactionProps {
+import { db } from '@/lib/prisma'
+
+export interface CreateTransactionProps {
   accountId: string
   paymentMethod: PAYMENT_METHOD | null
   categoryId: string | null
