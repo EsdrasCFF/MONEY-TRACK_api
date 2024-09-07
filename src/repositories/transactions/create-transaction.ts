@@ -23,6 +23,8 @@ export class CreateTransactionRepository implements ICreateTransactionRepository
       data: createTransactionParams,
     })
 
-    return transaction
+    const amountNumber = Number(transaction.amount)
+
+    return { ...transaction, amount: amountNumber }
   }
 }

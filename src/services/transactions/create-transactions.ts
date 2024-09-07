@@ -14,7 +14,7 @@ export class CreateTransactionService implements ICreateTransactionService {
   constructor(
     private createTransactionRepository: ICreateTransactionRepository,
     private getUserByIdRepository: IGetUserByIdRepository,
-    private getAccountByIdResository: IGetAccountByIdRepository
+    private getAccountByIdRepository: IGetAccountByIdRepository
   ) {}
 
   async execute(createTransactionParams: CreateTransactionProps, userId: string) {
@@ -36,7 +36,7 @@ export class CreateTransactionService implements ICreateTransactionService {
       throw new BadRequest('Provided amount is not valid!')
     }
 
-    const accountExists = await this.getAccountByIdResository.execute(createTransactionParams.accountId)
+    const accountExists = await this.getAccountByIdRepository.execute(createTransactionParams.accountId)
 
     if (!accountExists) {
       throw new BadRequest('Account not Found! Provided id is not valid')
