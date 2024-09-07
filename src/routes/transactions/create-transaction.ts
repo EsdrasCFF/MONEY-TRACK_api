@@ -24,7 +24,7 @@ const createTransactionSchema = z.object({
       .string()
       .refine((value) => !isNaN(Number(value)), { message: 'Only numbers are accepts' })
       .transform((value) => parseFloat(Number(value).toFixed(2))),
-    z.number(),
+    z.number().transform((value) => parseFloat(value.toFixed(2))),
   ]),
   type: z.enum(['INCOME', 'EXPENSE', 'INVESTMENT']),
   date: z.coerce.date({ message: 'Provided date is not valid!' }),
