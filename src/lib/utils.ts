@@ -22,3 +22,7 @@ export function convertAmountToHundredUnits(amount: number, type: TRANSACTION_TY
 
   return amount * 100 * -1
 }
+
+export function convertHundredUnitsToAmount(amount: number | bigint) {
+  return Number(amount) / 100
+}
