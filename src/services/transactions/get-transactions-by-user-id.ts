@@ -1,12 +1,10 @@
-import { Transaction } from '@prisma/client'
-
-import { IGetTransactionsByUserIdRepository } from '@/repositories/transactions/get-transactions-by-user-id'
+import { IGetTransactionsByUserIdRepository, TransactionWithCategory } from '@/repositories/transactions/get-transactions-by-user-id'
 
 import { IGetUserByIdRepository } from '../../repositories/users/get-user-by-id'
 import { NotFound } from '../../routes/_errors/errors-instance'
 
 export interface IGetTransactionsByUserIdService {
-  execute(userId: string): Promise<Transaction[]>
+  execute(userId: string): Promise<TransactionWithCategory[]>
 }
 
 export class GetTransactionsByUserIdService implements IGetTransactionsByUserIdService {

@@ -2,8 +2,12 @@ import { Transaction } from '@prisma/client'
 
 import { db } from '../../lib/prisma'
 
+export interface TransactionWithCategory extends Transaction {
+  category: string | null
+}
+
 export interface IGetTransactionsByUserIdRepository {
-  execute: (userId: string) => Promise<Transaction[]>
+  execute: (userId: string) => Promise<TransactionWithCategory[]>
 }
 
 export class GetTransactionsByUserIdRepository implements IGetTransactionsByUserIdRepository {
@@ -14,8 +18,22 @@ export class GetTransactionsByUserIdRepository implements IGetTransactionsByUser
           userId,
         },
       },
+      include: {
+        category: {
+          select: {
+            name: true,
+          },
+        },
+      },
     })
 
-    return transactions
+    const transactionsWithCategory = transactions.map((transaction) => {
+      return {
+        ...transaction,
+        category: transaction.category?.name ? transaction.category.name : null,
+      }
+    })
+
+    return transactionsWithCategory
   }
 }
