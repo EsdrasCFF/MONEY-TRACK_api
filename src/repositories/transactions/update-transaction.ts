@@ -2,7 +2,7 @@ import { Transaction } from '@prisma/client'
 
 import { db } from '@/lib/prisma'
 
-export interface UpdateTransactionParams {
+export interface UpdateTransactionProps {
   transactionId: string
   accountId: string
   categoryId: string
@@ -13,11 +13,11 @@ export interface UpdateTransactionParams {
 }
 
 export interface IUpdateTransactionRepository {
-  execute({ transactionId, ...otherProps }: UpdateTransactionParams): Promise<Transaction>
+  execute({ transactionId, ...otherProps }: UpdateTransactionProps): Promise<Transaction>
 }
 
 export class UpdateTransactionRepository implements IUpdateTransactionRepository {
-  async execute({ transactionId, ...otherProps }: UpdateTransactionParams) {
+  async execute({ transactionId, ...otherProps }: UpdateTransactionProps) {
     const updatedAccount = await db.transaction.update({
       data: otherProps,
       where: {
