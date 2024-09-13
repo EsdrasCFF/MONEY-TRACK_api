@@ -14,7 +14,7 @@ const TransactionTypeEnum = z
 
 export async function deleteTransaction(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().delete(
-    '/api/transaction/:id',
+    '/api/transactions/:id',
     {
       schema: {
         params: z.object({
