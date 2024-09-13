@@ -19,6 +19,7 @@ import { deleteCategory } from './routes/categories/delete-category'
 import { getCategories } from './routes/categories/get-categories'
 import { getCategory } from './routes/categories/get-category'
 import { updateCategory } from './routes/categories/update-category'
+import { bulkDeleteTransactions } from './routes/transactions/bulk-delete-transactions'
 import { createTransaction } from './routes/transactions/create-transaction'
 import { deleteTransaction } from './routes/transactions/delete-transaction'
 import { getTransactions } from './routes/transactions/get-transactions'
@@ -62,6 +63,7 @@ app.register(getCategory)
 app.register(createTransaction)
 app.register(getTransactions)
 app.register(deleteTransaction)
+app.register(bulkDeleteTransactions)
 
 app.setErrorHandler(errorHandler)
 
