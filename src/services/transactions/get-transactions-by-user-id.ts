@@ -1,3 +1,4 @@
+import { convertFromHundredUnitsToAmount } from '@/lib/utils'
 import { IGetTransactionsByUserIdRepository, TransactionWithCategory } from '@/repositories/transactions/get-transactions-by-user-id'
 
 import { IGetUserByIdRepository } from '../../repositories/users/get-user-by-id'
@@ -22,6 +23,11 @@ export class GetTransactionsByUserIdService implements IGetTransactionsByUserIdS
 
     const transactions = await this.getTransactionsByUserIdRepository.execute(userId)
 
-    return transactions
+    const converTransactionsToAmount = transactions.map((transaction) => ({
+      ...transaction,
+      amount: convertFromHundredUnitsToAmount(transaction.amount),
+    }))
+
+    return converTransactionsToAmount
   }
 }

@@ -1,6 +1,6 @@
 import { Transaction } from '@prisma/client'
 
-import { checkIfAmountIsValid, checkIfDateIsInFuture, convertAmountToHundredUnits } from '@/lib/utils'
+import { checkIfAmountIsValid, checkIfDateIsInFuture, convertFromAmountToHundredUnits, convertFromHundredUnitsToAmount } from '@/lib/utils'
 import { IGetAccountByIdRepository } from '@/repositories/accounts/get-account-by-id'
 import { CreateTransactionProps, ICreateTransactionRepository } from '@/repositories/transactions/create-transaction'
 import { IGetUserByIdRepository } from '@/repositories/users/get-user-by-id'
@@ -42,10 +42,12 @@ export class CreateTransactionService implements ICreateTransactionService {
       throw new BadRequest('Account not Found! Provided id is not valid')
     }
 
-    const transactionAmount = convertAmountToHundredUnits(createTransactionParams.amount, createTransactionParams.type)
+    const transactionAmount = convertFromAmountToHundredUnits(createTransactionParams.amount, createTransactionParams.type)
 
     const transaction = await this.createTransactionRepository.execute({ ...createTransactionParams, amount: transactionAmount })
 
-    return transaction
+    const convertToAmount = convertFromHundredUnitsToAmount(transaction.amount)
+
+    return { ...transaction, amount: convertToAmount }
   }
 }
