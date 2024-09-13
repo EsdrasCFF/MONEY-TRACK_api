@@ -13,7 +13,7 @@ export function checkIfAmountIsValid(amount: string): boolean {
   return validator.isNumeric(amount) && validator.matches(amount, decimalPattern)
 }
 
-export function convertAmountToHundredUnits(amount: number, type: TRANSACTION_TYPE) {
+export function convertFromAmountToHundredUnits(amount: number, type: TRANSACTION_TYPE) {
   const isIncome = type == 'INCOME'
 
   if (isIncome) {
@@ -23,6 +23,6 @@ export function convertAmountToHundredUnits(amount: number, type: TRANSACTION_TY
   return amount * 100 * -1
 }
 
-export function convertHundredUnitsToAmount(amount: number | bigint) {
+export function convertFromHundredUnitsToAmount(amount: number | bigint) {
   return Number(amount) / 100
 }
