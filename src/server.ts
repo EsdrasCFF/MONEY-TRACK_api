@@ -20,6 +20,7 @@ import { getCategories } from './routes/categories/get-categories'
 import { getCategory } from './routes/categories/get-category'
 import { updateCategory } from './routes/categories/update-category'
 import { createTransaction } from './routes/transactions/create-transaction'
+import { deleteTransaction } from './routes/transactions/delete-transaction'
 import { getTransactions } from './routes/transactions/get-transactions'
 import { createUser } from './routes/users/create-user'
 
@@ -60,6 +61,7 @@ app.register(getCategory)
 //transaction api routes
 app.register(createTransaction)
 app.register(getTransactions)
+app.register(deleteTransaction)
 
 app.setErrorHandler(errorHandler)
 
