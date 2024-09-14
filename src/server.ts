@@ -66,6 +66,7 @@ app.register(getTransactions)
 app.register(deleteTransaction)
 app.register(bulkDeleteTransactions)
 app.register(updateTransaction)
+app.register(getTransactions)
 
 app.setErrorHandler(errorHandler)
 
