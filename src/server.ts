@@ -23,6 +23,7 @@ import { bulkDeleteTransactions } from './routes/transactions/bulk-delete-transa
 import { createTransaction } from './routes/transactions/create-transaction'
 import { deleteTransaction } from './routes/transactions/delete-transaction'
 import { getTransactions } from './routes/transactions/get-transactions'
+import { updateTransaction } from './routes/transactions/update-transaction'
 import { createUser } from './routes/users/create-user'
 
 const app = fastify()
@@ -64,6 +65,7 @@ app.register(createTransaction)
 app.register(getTransactions)
 app.register(deleteTransaction)
 app.register(bulkDeleteTransactions)
+app.register(updateTransaction)
 
 app.setErrorHandler(errorHandler)
 
