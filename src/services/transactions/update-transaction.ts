@@ -5,7 +5,7 @@ import { IUpdateTransactionRepository, UpdateTransactionProps } from '@/reposito
 import { Forbidden, NotFound } from '@/routes/_errors/errors-instance'
 
 export interface IUpdateTransactionService {
-  execute(updateTransactionParams: UpdateTransactionProps, userId: string): Promise<Transaction>
+  execute(updateTransactionParams: UpdateTransactionProps, userId: string, transactionId: string): Promise<Transaction>
 }
 
 export class UpdateTransactionService {
@@ -14,8 +14,8 @@ export class UpdateTransactionService {
     private getTransactionByIdRepository: IGetTransactionByIdRepository
   ) {}
 
-  async execute(updateTransactionParams: UpdateTransactionProps, userId: string) {
-    const transactionExists = await this.getTransactionByIdRepository.execute(updateTransactionParams.transactionId)
+  async execute(updateTransactionParams: UpdateTransactionProps, userId: string, transactionId: string) {
+    const transactionExists = await this.getTransactionByIdRepository.execute(transactionId)
 
     if (!transactionExists) {
       throw new NotFound('Transaction not found!')
@@ -25,7 +25,7 @@ export class UpdateTransactionService {
       throw new Forbidden('You do not have permission to update this transaction!')
     }
 
-    const updatedTransaction = await this.updateTransactionRepository.execute(updateTransactionParams)
+    const updatedTransaction = await this.updateTransactionRepository.execute(updateTransactionParams, transactionId)
 
     return updatedTransaction
   }
