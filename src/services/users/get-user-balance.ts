@@ -1,4 +1,3 @@
-import dayjs from '@/lib/dayjs-setup'
 import { convertFromHundredUnitsToAmount } from '@/lib/utils'
 import { IGetUserBalanceRepository } from '@/repositories/users/get-user-balance'
 import { IGetUserByIdRepository } from '@/repositories/users/get-user-by-id'
@@ -28,10 +27,7 @@ export class GetUserBalanceService implements IGetUserBalanceService {
       throw new NotFound('User not found!')
     }
 
-    const formattedFromDate = dayjs(from).format('YYYY/MM/DD')
-    const formattedToDate = dayjs(to).format('YYYY/MM/DD')
-
-    const result = await this.getUserBalanceRepository.execute(userId, formattedFromDate, formattedToDate)
+    const result = await this.getUserBalanceRepository.execute(userId, from, to)
 
     const balance = {
       incomes: convertFromHundredUnitsToAmount(result.incomes),

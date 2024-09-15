@@ -1,3 +1,4 @@
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { FastifyInstance } from 'fastify'
 import { ZodError } from 'zod'
 
@@ -6,6 +7,12 @@ import { BadRequest, Forbidden, NotFound, ServerError, Unauthorized } from './ro
 type FastifyErrorHandler = FastifyInstance['errorHandler']
 
 export const errorHandler: FastifyErrorHandler = (error, request, response) => {
+  if (error instanceof PrismaClientKnownRequestError) {
+    console.error(error)
+    return response.status(500).send({
+      message: 'Database Error',
+    })
+  }
   if (error instanceof ZodError) {
     return response.status(400).send({
       message: error.errors[0].message,

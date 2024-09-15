@@ -8,24 +8,26 @@ export interface BalanceParams {
 }
 
 export interface IGetUserBalanceRepository {
-  execute(userId: string, from: string, to: string): Promise<BalanceParams>
+  execute(userId: string, from: Date, to: Date): Promise<BalanceParams>
 }
 
 export class GetUserBalanceRepository implements IGetUserBalanceRepository {
-  async execute(userId: string, from: string, to: string) {
+  async execute(userId: string, from: Date, to: Date) {
     const result = await db.$queryRaw<BalanceParams[]>`
       SELECT 
-        SUM(CASE WHEN type = 'INVESTMENT' THEN amount ELSE 0 END) AS investments,
-        SUM(CASE WHEN type = 'INCOME' THEN amount ELSE 0 END) AS incomes,
-        SUM(CASE WHEN type = 'EXPENSE' THEN amount ELSE 0 END) AS expenses,
+        SUM(CASE WHEN t.type = 'INVESTMENT' THEN t.amount ELSE 0 END) AS investments,
+        SUM(CASE WHEN t.type = 'INCOME' THEN t.amount ELSE 0 END) AS incomes,
+        SUM(CASE WHEN t.type = 'EXPENSE' THEN t.amount ELSE 0 END) AS expenses,
         SUM(amount) AS balance
       
       FROM 
-        transactions
+        transactions t
+      JOIN
+        accounts a ON t.account_id = a.id
       WHERE
-          user_id = ${userId}
-          AND date >= ${from}
-          AND date <= ${to}
+          a.user_id = ${userId}
+          AND t.date >= ${from}
+          AND t.date <= ${to}
     `
 
     const incomes = Number(result[0].incomes)
