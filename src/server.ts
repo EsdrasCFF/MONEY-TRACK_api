@@ -22,9 +22,11 @@ import { updateCategory } from './routes/categories/update-category'
 import { bulkDeleteTransactions } from './routes/transactions/bulk-delete-transactions'
 import { createTransaction } from './routes/transactions/create-transaction'
 import { deleteTransaction } from './routes/transactions/delete-transaction'
+import { getTransaction } from './routes/transactions/get-transaction'
 import { getTransactions } from './routes/transactions/get-transactions'
 import { updateTransaction } from './routes/transactions/update-transaction'
 import { createUser } from './routes/users/create-user'
+import { getUserBalance } from './routes/users/get-user-balance'
 
 const app = fastify()
 
@@ -42,7 +44,9 @@ app.register(clerkPlugin, {
 
 app.addHook('preHandler', authMiddleware)
 
+//user api routes
 app.register(createUser)
+app.register(getUserBalance)
 
 //accouts api routes
 app.register(createAccount)
@@ -66,7 +70,7 @@ app.register(getTransactions)
 app.register(deleteTransaction)
 app.register(bulkDeleteTransactions)
 app.register(updateTransaction)
-app.register(getTransactions)
+app.register(getTransaction)
 
 app.setErrorHandler(errorHandler)
 
