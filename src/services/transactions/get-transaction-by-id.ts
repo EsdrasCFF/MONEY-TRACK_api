@@ -2,6 +2,7 @@
 
 import { Transaction } from '@prisma/client'
 
+import { convertFromHundredUnitsToAmount } from '@/lib/utils'
 import { IGetCategoryByIdRepository } from '@/repositories/categories/get-category-by-id'
 import { IGetTransactionByIdRepository } from '@/repositories/transactions/get-transaction-by-id'
 import { Forbidden, NotFound } from '@/routes/_errors/errors-instance'
@@ -43,11 +44,12 @@ export class GetTransactionByIdService implements IGetTransactionByIdService {
       throw new Forbidden()
     }
 
-    const { account, ...otherProps } = transaction
+    const { account, amount, ...otherProps } = transaction
 
     const transactionReponse = {
       ...otherProps,
       category: categoryName,
+      amount: convertFromHundredUnitsToAmount(amount),
     }
 
     return transactionReponse
