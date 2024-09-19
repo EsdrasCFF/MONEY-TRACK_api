@@ -6,6 +6,9 @@ export const authMiddleware = (request: FastifyRequest, reply: FastifyReply, don
     return done()
   }
 
+  // if (request.url == '/api/teste') {
+  //   return done()
+  // }
   const { userId } = getAuth(request)
 
   if (!userId) {
