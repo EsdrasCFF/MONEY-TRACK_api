@@ -29,6 +29,9 @@ export class GetTransactionByPeriodRepository implements IGetTransactionsByPerio
           userId,
         },
       },
+      orderBy: {
+        date: 'desc',
+      },
     })
 
     return transactions
