@@ -5,7 +5,7 @@ import { IGetUserByIdRepository } from '../../repositories/users/get-user-by-id'
 import { NotFound } from '../../routes/_errors/errors-instance'
 
 export interface IGetTransactionsByUserIdService {
-  execute(userId: string): Promise<TransactionWithCategory[]>
+  execute(userId: string, from: Date, to: Date): Promise<TransactionWithCategory[]>
 }
 
 export class GetTransactionsByUserIdService implements IGetTransactionsByUserIdService {
@@ -14,14 +14,14 @@ export class GetTransactionsByUserIdService implements IGetTransactionsByUserIdS
     private getUserByIdRepository: IGetUserByIdRepository
   ) {}
 
-  async execute(userId: string) {
+  async execute(userId: string, from: Date, to: Date) {
     const userExists = await this.getUserByIdRepository.execute(userId)
 
     if (!userExists) {
       throw new NotFound('USER_NOT_FOUND!')
     }
 
-    const transactions = await this.getTransactionsByUserIdRepository.execute(userId)
+    const transactions = await this.getTransactionsByUserIdRepository.execute(userId, from, to)
 
     const converTransactionsToAmount = transactions.map((transaction) => ({
       ...transaction,

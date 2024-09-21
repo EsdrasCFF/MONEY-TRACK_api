@@ -16,7 +16,10 @@ export async function getTransactions(app: FastifyInstance) {
     '/api/transactions',
     {
       schema: {
-        // headers: z.o,
+        querystring: z.object({
+          from: z.coerce.date().nullable().optional(),
+          to: z.coerce.date().nullable().optional(),
+        }),
         response: {
           200: z.object({
             data: z.array(
@@ -39,6 +42,7 @@ export async function getTransactions(app: FastifyInstance) {
     },
     async (request, reply) => {
       const userId = request.user!.id
+      const { from, to } = request.query
 
       const getTransactionsByUserIdRespository = new GetTransactionsByUserIdRepository()
 
@@ -48,7 +52,7 @@ export async function getTransactions(app: FastifyInstance) {
 
       const getTransactionsByUserIdController = new GetTransactionsByUserIdController(getTransactionsByUserIdService)
 
-      const transactions = await getTransactionsByUserIdController.execute(userId)
+      const transactions = await getTransactionsByUserIdController.execute(userId, from ?? null, to ?? null)
 
       return reply.code(200).send({
         data: transactions,

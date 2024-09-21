@@ -22,7 +22,7 @@ export class GetCategoryRankingRepository implements IGetCategoryRankingReposito
       INNER JOIN
         accounts ON accounts.id = transactions.account_id
       WHERE 
-        transactions.amount < 0
+        transactions.type = 'EXPENSE'
         AND transactions.date >= ${from}
         AND transactions.date <= ${to}
         AND accounts.user_id = ${userId}

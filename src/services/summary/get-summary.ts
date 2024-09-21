@@ -60,14 +60,14 @@ export class GetSummaryService implements IGetSummaryService {
 
     let sizeCategories = categoryRanking.length
 
-    const topCategories = categoryRanking.slice(0, 5).map((category) => ({
+    const topCategories = categoryRanking.slice(0, 7).map((category) => ({
       ...category,
       total: convertFromHundredUnitsToAmount(Number(category.total)) * -1,
     }))
 
-    const othersCategories = categoryRanking.slice(5)
+    const othersCategories = categoryRanking.slice(7)
 
-    const othersCategoryTotal = sizeCategories > 5 ? othersCategories.reduce((sum, category) => sum + Number(category.total), 0) : false
+    const othersCategoryTotal = sizeCategories > 7 ? othersCategories.reduce((sum, category) => sum + Number(category.total), 0) : false
 
     const ranking = othersCategoryTotal
       ? [
