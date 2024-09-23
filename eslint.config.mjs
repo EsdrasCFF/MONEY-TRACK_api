@@ -4,6 +4,7 @@ import tsParser from '@typescript-eslint/parser'
 import prettierPlugin from 'eslint-plugin-prettier'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import globals from 'globals'
+import jestPlugin from 'eslint-plugin-jest'
 
 // Configuração Flat
 export default [
@@ -18,6 +19,7 @@ export default [
       '@typescript-eslint': tseslint,
       prettier: prettierPlugin,
       'simple-import-sort': simpleImportSort,
+      jest: jestPlugin,
     },
     rules: {
       ...pluginJs.configs.recommended.rules,
