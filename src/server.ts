@@ -26,8 +26,7 @@ import { deleteTransaction } from './routes/transactions/delete-transaction'
 import { getTransaction } from './routes/transactions/get-transaction'
 import { getTransactions } from './routes/transactions/get-transactions'
 import { updateTransaction } from './routes/transactions/update-transaction'
-import { createUser } from './routes/users/create-user'
-import { getUserBalance } from './routes/users/get-user-balance'
+import { createUser } from './routes/webhook/users/create-user'
 
 const app = fastify()
 
@@ -45,9 +44,8 @@ app.register(clerkPlugin, {
 
 app.addHook('preHandler', authMiddleware)
 
-//user api routes
+//webhook api routes
 app.register(createUser)
-app.register(getUserBalance)
 
 //accouts api routes
 app.register(createAccount)

@@ -2,10 +2,10 @@ import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
 
-import { CreateUserController } from '../../controllers/users/create-user'
-import { CreateUserRepository } from '../../repositories/users/create-user'
-import { GetUserByEmailRepository } from '../../repositories/users/get-user-by-email'
-import { CreateUserService } from '../../services/users/create-user'
+import { CreateUserController } from '@/controllers/users/create-user'
+import { CreateUserRepository } from '@/repositories/users/create-user'
+import { GetUserByEmailRepository } from '@/repositories/users/get-user-by-email'
+import { CreateUserService } from '@/services/users/create-user'
 
 export interface WebHookData {
   data: {
@@ -24,7 +24,7 @@ export interface WebHookData {
 
 export async function createUser(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
-    '/api/users',
+    '/api/webhook/users',
     {
       schema: {
         response: {
