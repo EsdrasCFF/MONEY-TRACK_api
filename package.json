@@ -8,9 +8,10 @@
     "build": "tsup src ---format esm",
     "start": "node dist/server.mjs",
     "prepare": "husky",
-    "test": "jest --passWithNoTests --silent --runInBand",
+    "test": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand",
     "test:watch": "npm run test -- --watch",
-    "test:coverage": "npm run test -- --coverage"
+    "test:coverage": "npm run test -- --coverage",
+    "postinstall": "npm husky install && npx prisma generate"
   },
   "keywords": [],
   "author": "",
