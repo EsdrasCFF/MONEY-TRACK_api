@@ -8,10 +8,12 @@
     "build": "tsup src ---format esm",
     "start": "node dist/server.mjs",
     "prepare": "husky",
-    "test": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand",
+    "test": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand --detectOpenHandles",
     "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run test -- --coverage",
-    "postinstall": "npm husky install && npx prisma generate"
+    "eslint:check": "eslint src",
+    "prettier:check": "prettier --check src",
+    "prettier:write": "prettier --write src"
   },
   "keywords": [],
   "author": "",
