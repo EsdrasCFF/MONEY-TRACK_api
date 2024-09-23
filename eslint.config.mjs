@@ -13,7 +13,10 @@ export default [
     ignores: ['node_modules'],
     languageOptions: {
       parser: tsParser,
-      globals: globals.node,
+      globals: {
+        ...globals.jest,
+        ...globals.node,
+      },
     },
     plugins: {
       '@typescript-eslint': tseslint,
