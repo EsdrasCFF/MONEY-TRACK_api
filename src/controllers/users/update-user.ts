@@ -2,20 +2,26 @@
 
 import { User } from '@prisma/client'
 import { FastifyRequest } from 'fastify'
+import { Webhook } from 'svix'
 
 import { WebHookData } from '@/routes/webhook/clerk/create-user'
+import { IUpdateUserService } from '@/services/users/update-user'
 
-// import { Webhook } from 'svix'
 import { BadRequest } from '../../routes/_errors/errors-instance'
 import { ICreateUserService } from '../../services/users/create-user'
 
-interface ICreateUserController {
+interface IUpdateUserController {
   execute(json: WebHookData, request: FastifyRequest): Promise<User>
 }
 
-export class CreateUserController implements ICreateUserController {
-  constructor(private createUserService: ICreateUserService) {}
+export class UpdateUserController implements IUpdateUserController {
+  constructor(private updateUserService: IUpdateUserService) {}
   async execute(json: WebHookData, request: FastifyRequest) {
+    const updateUserEvent = json.type == 'user.updated'
+
+    if (!updateUserEvent) {
+      throw new BadRequest('This event is not allowed')
+    }
     // const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET as string
 
     // const headers = request.headers
@@ -51,25 +57,25 @@ export class CreateUserController implements ICreateUserController {
 
     try {
       id = json.data.id
-      firstName = json.data.first_name
-      lastName = json.data.last_name
-      email = json.data.email_addresses[0].email_address
+      firstName = json.data.first_name ?? null
+      lastName = json.data.last_name ?? null
+      email = json.data.email_addresses[0].email_address ?? null
     } catch (e) {
       console.error('Error to get user params:', e)
       throw new BadRequest('Error to get User Params')
     }
 
-    if (!id || !firstName || !email) {
+    if (!id) {
       throw new BadRequest('INVALID_WEBHOOK_PARAMS')
     }
 
-    const createdUser = await this.createUserService.execute({
+    const updatedUser = await this.updateUserService.execute({
       id,
       firstName,
       lastName,
       email,
     })
 
-    return createdUser
+    return updatedUser
   }
 }
