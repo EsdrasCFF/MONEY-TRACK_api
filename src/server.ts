@@ -78,12 +78,12 @@ app.register(getSummary)
 
 app.setErrorHandler(errorHandler)
 
-const port = Number(process.env.PORT) || 3333
+const PORT = Number(process.env.PORT) || 3333
 
 app
-  .listen({ port })
+  .listen({ port: PORT, host: '0.0.0.0' })
   .then(() => {
-    console.log('Server is running')
+    console.log(`Server is running on port: ${PORT}`)
   })
   .catch((e) => {
     console.error('Failed to server start:', e)
