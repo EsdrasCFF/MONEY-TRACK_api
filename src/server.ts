@@ -27,6 +27,7 @@ import { getTransaction } from './routes/transactions/get-transaction'
 import { getTransactions } from './routes/transactions/get-transactions'
 import { updateTransaction } from './routes/transactions/update-transaction'
 import { createUser } from './routes/webhook/clerk/create-user'
+import { updateUser } from './routes/webhook/clerk/update-user'
 
 const app = fastify()
 
@@ -46,6 +47,7 @@ app.addHook('preHandler', authMiddleware)
 
 //webhook api routes
 app.register(createUser)
+app.register(updateUser)
 
 //accouts api routes
 app.register(createAccount)
