@@ -1,4 +1,5 @@
-import dayjs from '@/lib/dayjs-setup'
+import { startOfMonth } from 'date-fns'
+
 import { TransactionWithCategory } from '@/repositories/transactions/get-transactions-by-user-id'
 import { IGetTransactionsByUserIdService } from '@/services/transactions/get-transactions-by-user-id'
 
@@ -17,7 +18,7 @@ export class GetTransactionsByUserIdController implements IGetTransactionsByUser
     }
 
     const defaultTo = new Date()
-    const defaultFrom = new Date(dayjs(defaultTo).startOf('month').format())
+    const defaultFrom = startOfMonth(defaultTo)
 
     const fromDate = from ?? defaultFrom
     const toDate = to ?? defaultTo

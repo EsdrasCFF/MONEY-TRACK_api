@@ -1,10 +1,9 @@
 import { TRANSACTION_TYPE } from '@prisma/client'
+import { isAfter } from 'date-fns'
 import validator from 'validator'
 
-import dayjs from './dayjs-setup'
-
 export function checkIfDateIsInFuture(date: string | Date): boolean {
-  return dayjs(date).isAfter(new Date())
+  return isAfter(date, new Date())
 }
 
 export function checkIfAmountIsValid(amount: string): boolean {

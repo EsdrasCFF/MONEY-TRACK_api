@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsup src --format esm",
+    "build": "tsup src --format esm ",
     "start": "node dist/server.mjs",
     "prepare": "husky",
     "test": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand --detectOpenHandles",
@@ -48,6 +48,7 @@
     "@fastify/cors": "^9.0.1",
     "@prisma/client": "^5.18.0",
     "@types/validator": "^13.12.1",
+    "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
     "fastify": "^4.28.1",
