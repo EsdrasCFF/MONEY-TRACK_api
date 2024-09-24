@@ -26,7 +26,7 @@ import { deleteTransaction } from './routes/transactions/delete-transaction'
 import { getTransaction } from './routes/transactions/get-transaction'
 import { getTransactions } from './routes/transactions/get-transactions'
 import { updateTransaction } from './routes/transactions/update-transaction'
-import { createUser } from './routes/webhook/users/create-user'
+import { createUser } from './routes/webhook/clerk/create-user'
 
 const app = fastify()
 

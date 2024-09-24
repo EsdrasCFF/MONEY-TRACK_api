@@ -7,6 +7,8 @@ import { CreateUserRepository } from '@/repositories/users/create-user'
 import { GetUserByEmailRepository } from '@/repositories/users/get-user-by-email'
 import { CreateUserService } from '@/services/users/create-user'
 
+type EventType = 'user.created' | 'user.updated'
+
 export interface WebHookData {
   data: {
     id: string
@@ -19,12 +21,12 @@ export interface WebHookData {
     ]
   }
   object: string
-  type: string
+  type: EventType
 }
 
 export async function createUser(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
-    '/api/webhook/users',
+    '/api/webhook/clerk/create-user',
     {
       schema: {
         response: {

@@ -2,7 +2,7 @@ import { getAuth } from '@clerk/fastify'
 import { FastifyError, FastifyReply, FastifyRequest } from 'fastify'
 
 export const authMiddleware = (request: FastifyRequest, reply: FastifyReply, done: (error?: FastifyError) => void) => {
-  if (request.url == '/api/users' && request.method == 'POST') {
+  if (request.url.includes('/api/webhook/') && request.method == 'POST') {
     return done()
   }
 
