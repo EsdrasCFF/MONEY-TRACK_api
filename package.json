@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsup src ---format esm",
+    "build": "tsup src --format esm",
     "start": "node dist/server.mjs",
     "prepare": "husky",
     "test": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand --detectOpenHandles",
@@ -38,7 +38,7 @@
     "prisma": "^5.18.0",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
-    "tsup": "^8.2.4",
+    "tsup": "^8.3.0",
     "tsx": "^4.17.0",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.1.0"
