@@ -17,6 +17,11 @@ interface IUpdateUserController {
 export class UpdateUserController implements IUpdateUserController {
   constructor(private updateUserService: IUpdateUserService) {}
   async execute(json: WebHookData, request: FastifyRequest) {
+    const createUserEvent = json.type == 'user.created'
+
+    if (!createUserEvent) {
+      throw new BadRequest('This event is not allowed')
+    }
     // const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET as string
 
     // const headers = request.headers
