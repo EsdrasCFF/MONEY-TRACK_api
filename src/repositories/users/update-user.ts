@@ -10,7 +10,7 @@ export interface UpdateUserProps {
 }
 
 export interface IUpdateUserRepository {
-  execute(otherParams: UpdateUserProps): Promise<User>
+  execute(updateUserParams: UpdateUserProps): Promise<User>
 }
 
 export class UpdateUserRepository implements IUpdateUserRepository {
