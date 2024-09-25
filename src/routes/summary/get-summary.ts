@@ -3,6 +3,7 @@ import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
 
 import { GetSummaryController } from '@/controllers/summary/get-summary'
+import { GetAccountByIdRepository } from '@/repositories/accounts/get-account-by-id'
 import { GetCategoryRankingRepository } from '@/repositories/categories/get-category-ranking'
 import { GetTransactionByPeriodRepository } from '@/repositories/transactions/get-transactions-by-period'
 import { GetUserBalanceRepository } from '@/repositories/users/get-user-balance'
@@ -52,6 +53,7 @@ export async function getSummary(app: FastifyInstance) {
         querystring: z.object({
           to: z.coerce.date(),
           from: z.coerce.date(),
+          accountId: z.string().nullable().optional(),
         }),
         // response: {
         //   200: responseSchema,
@@ -59,24 +61,28 @@ export async function getSummary(app: FastifyInstance) {
       },
     },
     async (request, reply) => {
-      const { from, to } = request.query
+      const { from, to, accountId } = request.query
       const userId = request.user?.id
 
       const getUserByIdRepository = new GetUserByIdRepository()
       const getUserBalanceRepository = new GetUserBalanceRepository()
       const getTransactionByPeriodRepository = new GetTransactionByPeriodRepository()
       const getCategoryRankingRepository = new GetCategoryRankingRepository()
+      const getAccountByIdRepository = new GetAccountByIdRepository()
 
       const getSummaryService = new GetSummaryService(
         getUserByIdRepository,
         getUserBalanceRepository,
         getTransactionByPeriodRepository,
-        getCategoryRankingRepository
+        getCategoryRankingRepository,
+        getAccountByIdRepository
       )
 
       const getSummaryController = new GetSummaryController(getSummaryService)
 
-      const result = await getSummaryController.execute(from, to, userId!)
+      const result = await getSummaryController.execute(from, to, accountId, userId!)
+
+      console.log(result)
 
       return reply.code(200).send({
         data: result,

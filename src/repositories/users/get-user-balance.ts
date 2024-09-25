@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client'
+
 import { db } from '../../lib/prisma'
 
 export interface BalanceParams {
@@ -8,12 +10,14 @@ export interface BalanceParams {
 }
 
 export interface IGetUserBalanceRepository {
-  execute(userId: string, from: Date, to: Date): Promise<BalanceParams>
+  execute(userId: string, from: Date, to: Date, accountId: string | null): Promise<BalanceParams>
 }
 
 export class GetUserBalanceRepository implements IGetUserBalanceRepository {
-  async execute(userId: string, from: Date, to: Date) {
-    const result = await db.$queryRaw<BalanceParams[]>`
+  async execute(userId: string, from: Date, to: Date, accountId: string | null) {
+    const accountCondition = accountId ? Prisma.sql`AND t.account_id  = ${accountId}` : Prisma.empty
+
+    const result = await db.$queryRaw<BalanceParams[]>(Prisma.sql`
       SELECT 
         SUM(CASE WHEN t.type = 'INVESTMENT' THEN t.amount ELSE 0 END) AS investments,
         SUM(CASE WHEN t.type = 'INCOME' THEN t.amount ELSE 0 END) AS incomes,
@@ -28,7 +32,8 @@ export class GetUserBalanceRepository implements IGetUserBalanceRepository {
           a.user_id = ${userId}
           AND t.date >= ${from}
           AND t.date <= ${to}
-    `
+          ${accountCondition}
+    `)
 
     const incomes = Number(result[0].incomes)
     const expenses = Number(result[0].expenses)
