@@ -21,7 +21,7 @@ export class DeleteAccountService implements IDeleteAccountService {
       throw new NotFound('Account not found')
     }
 
-    if (userId != accountExists.userId) {
+    if (userId != accountExists.ownerId) {
       throw new BadRequest('UserId provided is not valid!')
     }
 

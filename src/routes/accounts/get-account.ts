@@ -19,7 +19,7 @@ export async function getAccount(app: FastifyInstance) {
             data: z.object({
               id: z.string(),
               name: z.string(),
-              userId: z.string(),
+              ownerId: z.string(),
             }),
           }),
         },

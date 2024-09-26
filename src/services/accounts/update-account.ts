@@ -27,7 +27,7 @@ export class UpdateAccountService {
       throw new NotFound('Account not found!')
     }
 
-    if (accountExists.userId != userId) {
+    if (accountExists.ownerId != userId) {
       throw new Forbidden('You do not have permission to update this account!')
     }
 

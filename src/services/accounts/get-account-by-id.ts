@@ -17,7 +17,7 @@ export class GetAccountByIdService implements IGetAccountByIdService {
       throw new NotFound('Account not found')
     }
 
-    const userIdIsValid = account.userId == userId
+    const userIdIsValid = account.ownerId == userId
 
     if (!userIdIsValid) {
       throw new BadRequest('Provided userId is not valid')
