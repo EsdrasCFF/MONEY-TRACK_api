@@ -15,7 +15,7 @@ export class GetTransactionsByUserIdRepository implements IGetTransactionsByUser
     const transactions = await db.transaction.findMany({
       where: {
         account: {
-          userId,
+          ownerId: userId,
         },
         date: {
           gte: from,
