@@ -20,21 +20,35 @@ model User {
   document String?
   email String @unique
 
-  Accounts Account[]
+  Accounts UserAccount[]
   Categories Category[]
+  OwnedAccount Account[]
 
   @@map("users")
 }
 
 model Account {
   id String @id @default(cuid())
-  userId String @map("user_id")
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   name String
+  ownerId String @map("owner_id")
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
 
   Transactions Transaction[]
+  Accounts UserAccount[]
 
   @@map("accounts")
+}
+
+model UserAccount {
+  userId String @map("user_id")
+  accountId String @map("account_id")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@map("user_accounts")
+  @@id([userId, accountId])
 }
 
 enum CATEGORY_TYPE {
