@@ -22,7 +22,7 @@ export async function createAccount(app: FastifyInstance) {
           201: z.object({
             data: z.object({
               name: z.string(),
-              userId: z.string(),
+              ownerId: z.string(),
               id: z.string(),
             }),
           }),

@@ -16,7 +16,7 @@ export class GetAccountByNameRepository implements IGetAccountByNameRepository {
     const account = await db.account.findFirst({
       where: {
         name,
-        userId,
+        ownerId: userId,
       },
     })
 

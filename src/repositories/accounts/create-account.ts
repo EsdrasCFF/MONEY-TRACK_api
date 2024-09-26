@@ -15,8 +15,15 @@ export class CreateAccountRepository {
   async execute({ name, userId }: CreateAccountProps) {
     const createdAccount = await db.account.create({
       data: {
-        userId,
+        ownerId: userId,
         name,
+      },
+    })
+
+    await db.userAccount.create({
+      data: {
+        accountId: createdAccount.id,
+        userId,
       },
     })
 

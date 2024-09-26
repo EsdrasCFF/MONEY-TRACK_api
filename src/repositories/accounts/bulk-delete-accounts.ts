@@ -11,7 +11,7 @@ export class BulkDeleteAccountsRepository implements IBulkDeleteAccountsReposito
         id: {
           in: ids,
         },
-        userId,
+        ownerId: userId,
       },
     })
 
