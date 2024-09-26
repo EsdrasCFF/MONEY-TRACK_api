@@ -82,8 +82,6 @@ export async function getSummary(app: FastifyInstance) {
 
       const result = await getSummaryController.execute(from, to, accountId, userId!)
 
-      console.log(result)
-
       return reply.code(200).send({
         data: result,
       })

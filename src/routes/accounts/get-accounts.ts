@@ -23,7 +23,7 @@ export async function getAccounts(app: FastifyInstance) {
               z.object({
                 id: z.string(),
                 name: z.string(),
-                userId: z.string(),
+                ownerId: z.string(),
               })
             ),
           }),

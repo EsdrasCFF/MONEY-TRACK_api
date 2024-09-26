@@ -8,9 +8,14 @@ export interface IGetAccountsByUserIdRepository {
 
 export class GetAccountsByUserIdRepository implements IGetAccountsByUserIdRepository {
   async execute(userId: string) {
-    const accounts = await db.account.findMany({
+    const userWithAccount = await db.userAccount.findMany({
       where: { userId },
+      include: {
+        account: true,
+      },
     })
+
+    const accounts = userWithAccount.map((data) => data.account)
 
     return accounts
   }
