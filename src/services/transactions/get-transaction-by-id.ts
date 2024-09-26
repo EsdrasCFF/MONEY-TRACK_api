@@ -28,7 +28,7 @@ export class GetTransactionByIdService implements IGetTransactionByIdService {
       throw new NotFound('Category not found')
     }
 
-    const userIdIsAuthorized = transaction.account.userId == userId
+    const userIdIsAuthorized = transaction.account.ownerId == userId
 
     const categoryId = transaction.categoryId
 

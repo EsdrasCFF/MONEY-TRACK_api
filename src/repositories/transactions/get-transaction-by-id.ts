@@ -6,7 +6,7 @@ type TransactionWithUserId = Prisma.TransactionGetPayload<{
   include: {
     account: {
       select: {
-        userId: true
+        ownerId: true
       }
     }
   }
@@ -23,7 +23,7 @@ export class GetTransactionByIdRepository implements IGetTransactionByIdReposito
       include: {
         account: {
           select: {
-            userId: true,
+            ownerId: true,
           },
         },
       },
