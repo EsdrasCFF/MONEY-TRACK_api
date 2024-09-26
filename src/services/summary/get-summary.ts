@@ -62,7 +62,10 @@ export class GetSummaryService implements IGetSummaryService {
 
     const transactions = await this.getTransactionsByPeriodRepository.execute(from, to, userId) //ok
 
-    const categoryRanking = await this.getCategoryRankingRepository.execute(userId, from, to) //ok
+    const filteredTransactions =
+      accountId === 'all' ? transactions : transactions.filter((transaction) => transaction.accountId == accountId) //ok
+
+    const categoryRanking = await this.getCategoryRankingRepository.execute(userId, from, to, accountId) //ok
 
     const formattedBalance = {
       INCOMES: convertFromHundredUnitsToAmount(balance.incomes),
@@ -92,7 +95,7 @@ export class GetSummaryService implements IGetSummaryService {
         ]
       : topCategories
 
-    const transactionTypeTotal = transactions.reduce(
+    const transactionTypeTotal = filteredTransactions.reduce(
       (acc, transaction) => {
         acc[transaction.type] += transaction.amount
 
@@ -101,7 +104,7 @@ export class GetSummaryService implements IGetSummaryService {
       { INCOME: 0, EXPENSE: 0, INVESTMENT: 0 }
     ) //ok
 
-    const formattedTransactions = transactions
+    const formattedTransactions = filteredTransactions
       .map((transaction) => {
         return {
           ...transaction,
