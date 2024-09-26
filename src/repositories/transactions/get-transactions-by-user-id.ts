@@ -29,6 +29,9 @@ export class GetTransactionsByUserIdRepository implements IGetTransactionsByUser
           },
         },
       },
+      orderBy: {
+        date: 'desc',
+      },
     })
 
     const transactionsWithCategory = transactions.map((transaction) => {
