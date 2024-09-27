@@ -1,5 +1,6 @@
 import { Transaction } from '@prisma/client'
 
+import { convertFromAmountToHundredUnits } from '@/lib/utils'
 import { IGetTransactionByIdRepository } from '@/repositories/transactions/get-transaction-by-id'
 import { IUpdateTransactionRepository, UpdateTransactionProps } from '@/repositories/transactions/update-transaction'
 import { Forbidden, NotFound } from '@/routes/_errors/errors-instance'
@@ -25,7 +26,12 @@ export class UpdateTransactionService {
       throw new Forbidden('You do not have permission to update this transaction!')
     }
 
-    const updatedTransaction = await this.updateTransactionRepository.execute(updateTransactionParams, transactionId)
+    const transactionAmount = convertFromAmountToHundredUnits(updateTransactionParams.amount, transactionExists.type)
+
+    const updatedTransaction = await this.updateTransactionRepository.execute(
+      { ...updateTransactionParams, amount: transactionAmount },
+      transactionId
+    )
 
     return updatedTransaction
   }

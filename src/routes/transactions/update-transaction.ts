@@ -61,8 +61,6 @@ export async function updateTransaction(app: FastifyInstance) {
       const userId = request.user?.id
       const { transactionId } = request.params
 
-      console.log('Chegou na requisição!')
-
       const updateTransactionRepository = new UpdateTransactionRepository()
       const getTransactionByIdRepository = new GetTransactionByIdRepository()
 
