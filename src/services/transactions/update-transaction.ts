@@ -21,7 +21,7 @@ export class UpdateTransactionService {
       throw new NotFound('Transaction not found!')
     }
 
-    if (transactionExists.account.userId != userId) {
+    if (transactionExists.account.ownerId != userId) {
       throw new Forbidden('You do not have permission to update this transaction!')
     }
 

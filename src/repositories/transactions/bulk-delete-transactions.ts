@@ -12,7 +12,7 @@ export class BulkDeleteTransactionsRepository implements IBulkDeleteTransactions
           in: ids,
         },
         account: {
-          userId,
+          ownerId: userId,
         },
       },
     })

@@ -31,7 +31,7 @@ const updateTransactionSchema = z.object({
 })
 
 export async function updateTransaction(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().post(
+  app.withTypeProvider<ZodTypeProvider>().patch(
     '/api/transactions/:transactionId',
     {
       schema: {
@@ -60,6 +60,8 @@ export async function updateTransaction(app: FastifyInstance) {
       const updateTransactionParams = request.body
       const userId = request.user?.id
       const { transactionId } = request.params
+
+      console.log('Chegou na requisição!')
 
       const updateTransactionRepository = new UpdateTransactionRepository()
       const getTransactionByIdRepository = new GetTransactionByIdRepository()
