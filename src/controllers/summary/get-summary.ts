@@ -6,7 +6,7 @@ export class GetSummaryController {
 
   async execute(from: Date, to: Date, accountId: string | null | undefined, userId: string) {
     if (!from || !to || !userId) {
-      throw new BadRequest('Required params warse not provided')
+      throw new BadRequest('Required params ware not provided')
     }
 
     const result = await this.getSummaryService.execute(from, to, accountId ?? 'all', userId)

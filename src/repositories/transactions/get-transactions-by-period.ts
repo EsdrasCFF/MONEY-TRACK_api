@@ -26,7 +26,7 @@ export class GetTransactionByPeriodRepository implements IGetTransactionsByPerio
           lte: to,
         },
         account: {
-          userId,
+          ownerId: userId,
         },
       },
       orderBy: {

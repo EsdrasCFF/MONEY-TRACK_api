@@ -29,7 +29,7 @@ export class GetCategoryRankingRepository implements IGetCategoryRankingReposito
         transactions.type = 'EXPENSE'
         AND transactions.date >= ${from}
         AND transactions.date <= ${to}
-        AND accounts.user_id = ${userId}
+        AND accounts.owner_id = ${userId}
         ${accountCondition}
 
       GROUP BY
