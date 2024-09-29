@@ -1,6 +1,6 @@
 import { Account } from '@prisma/client'
 
-import { BadRequest } from '../../routes/_errors/errors-instance'
+import { BadRequest, Unauthorized } from '../../routes/_errors/errors-instance'
 import { ICreateAccountService } from '../../services/accounts/create-account'
 
 export interface ICreateAccountController {
@@ -11,8 +11,12 @@ export class CreateAccountController implements ICreateAccountController {
   constructor(private createAccountService: ICreateAccountService) {}
 
   async execute(name: string, userId: string | undefined) {
-    if (!name || !userId) {
+    if (!name) {
       throw new BadRequest('Provided Params are not valid!')
+    }
+
+    if (!userId) {
+      throw new Unauthorized('Unauthenticated')
     }
 
     const createdAccount = await this.createAccountService.execute({
