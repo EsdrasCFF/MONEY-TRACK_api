@@ -23,6 +23,7 @@ model User {
   Accounts UserAccount[]
   Categories Category[]
   OwnedAccount Account[]
+  Transactions Transaction[]
 
   @@map("users")
 }
@@ -31,8 +32,12 @@ model Account {
   id String @id @default(cuid())
   name String
   ownerId String @map("owner_id")
-  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  balance Float @default(0)
 
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
   Transactions Transaction[]
   Accounts UserAccount[]
@@ -43,12 +48,20 @@ model Account {
 model UserAccount {
   userId String @map("user_id")
   accountId String @map("account_id")
+  role UserRole @default(USER)
+  canView Boolean @default(true) @map("can_view")
+  canEdit Boolean @default(false) @map("can_edit")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
 
   @@map("user_accounts")
   @@id([userId, accountId])
+}
+
+enum UserRole {
+  OWNER
+  USER
 }
 
 enum CATEGORY_TYPE {
@@ -63,6 +76,9 @@ model Category {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   type CATEGORY_TYPE
   name String
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   Transactions Transaction[]
 
@@ -84,14 +100,18 @@ model Transaction {
   accountId String @map("account_id")
   paymentMethod PAYMENT_METHOD? @map("payment_method")
   categoryId String? @map("category_id")
+  creatorId String @map("creator_id")
   payee String
   amount Int
   type TRANSACTION_TYPE
   date DateTime
   description String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
   category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  creator User @relation(fields: [creatorId], references: [id], onDelete: Cascade)
 
   @@map("transactions")
 }
