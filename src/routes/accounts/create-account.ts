@@ -9,7 +9,6 @@ import { CreateAccountService } from '../../services/accounts/create-account'
 
 const createAccountSchema = z.object({
   name: z.string({ required_error: 'Name is required!' }).trim().min(3, { message: 'Nome da conta precisa ter mais de 3 caracteres!' }),
-  userId: z.string({ required_error: 'UserId is required!' }).trim(),
 })
 
 export async function createAccount(app: FastifyInstance) {
@@ -30,8 +29,8 @@ export async function createAccount(app: FastifyInstance) {
       },
     },
     async (request, reply) => {
-      const { name, userId } = request.body
-      const authenticatedUserId = request.user?.id
+      const { name } = request.body
+      const userId = request.user?.id
 
       const createAccountRespository = new CreateAccountRepository()
       const getAccountByNameRepository = new GetAccountByNameRepository()
@@ -40,7 +39,7 @@ export async function createAccount(app: FastifyInstance) {
 
       const createAccountController = new CreateAccountController(createAccountService)
 
-      const account = await createAccountController.execute({ name, userId }, authenticatedUserId)
+      const account = await createAccountController.execute(name, userId)
 
       return reply.code(201).send({
         data: account,
