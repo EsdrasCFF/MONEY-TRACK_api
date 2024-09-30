@@ -12,6 +12,7 @@ import { createAccount } from './routes/accounts/create-account'
 import { deleteAccount } from './routes/accounts/delete-account'
 import { getAccount } from './routes/accounts/get-account'
 import { getAccounts } from './routes/accounts/get-accounts'
+import { shareAccount } from './routes/accounts/share-account'
 import { updateAccount } from './routes/accounts/update-account'
 import { bulkDeleteCategories } from './routes/categories/bulk-delete-categories'
 import { createCategory } from './routes/categories/create-category'
@@ -60,6 +61,7 @@ app.register(bulkDeleteAccounts)
 app.register(deleteAccount)
 app.register(getAccount)
 app.register(updateAccount)
+app.register(shareAccount)
 
 //categories api routes
 app.register(getCategories)
