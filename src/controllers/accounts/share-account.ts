@@ -18,7 +18,7 @@ export class ShareAccountController {
   constructor(private shareAccountService: IShareAccountService) {}
 
   async execute({ accountId, authenticatedUserId, canCreate, canEdit, email, userId }: ShareAccountProps) {
-    if (!authenticatedUserId || userId) {
+    if (!authenticatedUserId || !userId) {
       throw new Unauthorized()
     }
 
