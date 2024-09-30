@@ -26,6 +26,7 @@ import { deleteTransaction } from './routes/transactions/delete-transaction'
 import { getTransaction } from './routes/transactions/get-transaction'
 import { getTransactions } from './routes/transactions/get-transactions'
 import { updateTransaction } from './routes/transactions/update-transaction'
+import { getUserByEmail } from './routes/users/get-user-by-email'
 import { createUser } from './routes/webhook/clerk/create-user'
 import { updateUser } from './routes/webhook/clerk/update-user'
 
@@ -44,6 +45,9 @@ app.register(clerkPlugin, {
 })
 
 app.addHook('preHandler', authMiddleware)
+
+//user api route
+app.register(getUserByEmail)
 
 //webhook api routes
 app.register(createUser)

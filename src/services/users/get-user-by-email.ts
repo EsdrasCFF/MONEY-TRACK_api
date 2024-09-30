@@ -2,7 +2,7 @@ import { IGetUserByEmailRepository } from '@/repositories/users/get-user-by-emai
 import { IGetUserByIdRepository } from '@/repositories/users/get-user-by-id'
 import { NotFound } from '@/routes/_errors/errors-instance'
 
-interface UserProps {
+export interface UserProps {
   email: string
   firstName: string
   lastName: string
@@ -12,7 +12,7 @@ export interface IGetUserByEmailService {
   execute(email: string, userId: string): Promise<UserProps>
 }
 
-export class GetUserByEmailService {
+export class GetUserByEmailService implements IGetUserByEmailService {
   constructor(
     private getUserByIdRepository: IGetUserByIdRepository,
     private getUserByEmailRepository: IGetUserByEmailRepository
