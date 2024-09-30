@@ -7,15 +7,17 @@ export interface TransactionWithCategory extends Transaction {
 }
 
 export interface IGetTransactionsByUserIdRepository {
-  execute: (userId: string, from: Date, to: Date) => Promise<TransactionWithCategory[]>
+  execute: (userId: string, from: Date, to: Date, accountsId: string[]) => Promise<TransactionWithCategory[]>
 }
 
 export class GetTransactionsByUserIdRepository implements IGetTransactionsByUserIdRepository {
-  async execute(userId: string, from: Date, to: Date) {
+  async execute(userId: string, from: Date, to: Date, accountsId: string[]) {
     const transactions = await db.transaction.findMany({
       where: {
         account: {
-          ownerId: userId,
+          id: {
+            in: accountsId,
+          },
         },
         date: {
           gte: from,

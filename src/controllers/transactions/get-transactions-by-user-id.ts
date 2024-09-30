@@ -6,13 +6,13 @@ import { IGetTransactionsByUserIdService } from '@/services/transactions/get-tra
 import { BadRequest } from '../../routes/_errors/errors-instance'
 
 export interface IGetTransactionsByUserIdController {
-  execute(userId: string, from: Date | null, to: Date | null): Promise<TransactionWithCategory[]>
+  execute(userId: string, from: Date | null, to: Date | null, accountId: string): Promise<TransactionWithCategory[]>
 }
 
 export class GetTransactionsByUserIdController implements IGetTransactionsByUserIdController {
   constructor(private getTransactionsByUserIdService: IGetTransactionsByUserIdService) {}
 
-  async execute(userId: string, from: Date | null, to: Date | null) {
+  async execute(userId: string, from: Date | null, to: Date | null, accountId: string) {
     if (!userId) {
       throw new BadRequest('User Id is missing or not provided!')
     }
@@ -23,7 +23,7 @@ export class GetTransactionsByUserIdController implements IGetTransactionsByUser
     const fromDate = from ?? defaultFrom
     const toDate = to ?? defaultTo
 
-    const transactions = await this.getTransactionsByUserIdService.execute(userId, fromDate, toDate)
+    const transactions = await this.getTransactionsByUserIdService.execute(userId, fromDate, toDate, accountId)
 
     return transactions
   }

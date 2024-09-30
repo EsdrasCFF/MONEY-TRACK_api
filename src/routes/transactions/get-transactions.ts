@@ -3,6 +3,7 @@ import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
 
 import { GetTransactionsByUserIdController } from '@/controllers/transactions/get-transactions-by-user-id'
+import { GetAccountsByUserIdRepository } from '@/repositories/accounts/get-accounts-by-userId'
 import { GetTransactionsByUserIdRepository } from '@/repositories/transactions/get-transactions-by-user-id'
 import { GetUserByIdRepository } from '@/repositories/users/get-user-by-id'
 import { GetTransactionsByUserIdService } from '@/services/transactions/get-transactions-by-user-id'
@@ -19,6 +20,7 @@ export async function getTransactions(app: FastifyInstance) {
         querystring: z.object({
           from: z.coerce.date().nullable().optional(),
           to: z.coerce.date().nullable().optional(),
+          accountId: z.string().nullable().optional(),
         }),
         response: {
           200: z.object({
@@ -42,17 +44,21 @@ export async function getTransactions(app: FastifyInstance) {
     },
     async (request, reply) => {
       const userId = request.user!.id
-      const { from, to } = request.query
+      const { from, to, accountId } = request.query
 
       const getTransactionsByUserIdRespository = new GetTransactionsByUserIdRepository()
-
       const getUserByIdRepository = new GetUserByIdRepository()
+      const getAccountsByUserIdRepository = new GetAccountsByUserIdRepository()
 
-      const getTransactionsByUserIdService = new GetTransactionsByUserIdService(getTransactionsByUserIdRespository, getUserByIdRepository)
+      const getTransactionsByUserIdService = new GetTransactionsByUserIdService(
+        getTransactionsByUserIdRespository,
+        getUserByIdRepository,
+        getAccountsByUserIdRepository
+      )
 
       const getTransactionsByUserIdController = new GetTransactionsByUserIdController(getTransactionsByUserIdService)
 
-      const transactions = await getTransactionsByUserIdController.execute(userId, from ?? null, to ?? null)
+      const transactions = await getTransactionsByUserIdController.execute(userId, from ?? null, to ?? null, accountId ?? 'all')
 
       return reply.code(200).send({
         data: transactions,
