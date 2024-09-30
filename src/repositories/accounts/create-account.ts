@@ -24,6 +24,9 @@ export class CreateAccountRepository {
       data: {
         accountId: createdAccount.id,
         userId,
+        role: 'OWNER',
+        canView: true,
+        canEdit: true,
       },
     })
 
