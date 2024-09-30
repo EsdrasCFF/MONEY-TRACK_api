@@ -49,8 +49,9 @@ model UserAccount {
   userId String @map("user_id")
   accountId String @map("account_id")
   role UserRole @default(USER)
-  canView Boolean @default(true) @map("can_view")
+  canCreate Boolean @default(true) @map("can_create")
   canEdit Boolean @default(false) @map("can_edit")
+  acceptedUser Boolean @default(false) @map("accepted_user")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)

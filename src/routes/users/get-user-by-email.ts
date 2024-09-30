@@ -7,9 +7,9 @@ import { GetUserByEmailRepository } from '@/repositories/users/get-user-by-email
 import { GetUserByIdRepository } from '@/repositories/users/get-user-by-id'
 import { GetUserByEmailService } from '@/services/users/get-user-by-email'
 
-export function getUserByEmail(app: FastifyInstance) {
+export async function getUserByEmail(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
-    '/api/users/by-email/:email',
+    '/api/users/by-email',
     {
       schema: {
         querystring: z.object({
