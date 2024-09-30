@@ -3,6 +3,7 @@ import { IGetUserByIdRepository } from '@/repositories/users/get-user-by-id'
 import { NotFound } from '@/routes/_errors/errors-instance'
 
 export interface UserProps {
+  id: string
   email: string
   firstName: string
   lastName: string
@@ -32,6 +33,7 @@ export class GetUserByEmailService implements IGetUserByEmailService {
     }
 
     return {
+      id: userByEmail.id,
       firstName: userByEmail.firstName,
       lastName: userByEmail.lastName,
       email: userByEmail.email,
