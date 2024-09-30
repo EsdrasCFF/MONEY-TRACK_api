@@ -79,9 +79,10 @@ export async function createTransaction(app: FastifyInstance) {
         description: createTransactionParams.description ?? null,
         amount: createTransactionParams.amount,
         type: createTransactionParams.type,
+        creatorId: userId!,
       }
 
-      const createdTransaction = await createTransactionController.execute(transactionParams, userId!)
+      const createdTransaction = await createTransactionController.execute(transactionParams)
 
       return reply.code(201).send({
         data: createdTransaction,

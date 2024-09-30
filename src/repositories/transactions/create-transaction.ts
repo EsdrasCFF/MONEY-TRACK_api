@@ -11,6 +11,7 @@ export interface CreateTransactionProps {
   type: TRANSACTION_TYPE
   date: Date
   description: string | null
+  creatorId: string
 }
 
 export interface ICreateTransactionRepository {

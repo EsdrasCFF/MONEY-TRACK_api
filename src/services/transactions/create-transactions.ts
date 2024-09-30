@@ -7,7 +7,7 @@ import { IGetUserByIdRepository } from '@/repositories/users/get-user-by-id'
 import { BadRequest, NotFound } from '@/routes/_errors/errors-instance'
 
 export interface ICreateTransactionService {
-  execute(createTransactionParams: CreateTransactionProps, userId: string): Promise<Transaction>
+  execute(createTransactionParams: CreateTransactionProps): Promise<Transaction>
 }
 
 export class CreateTransactionService implements ICreateTransactionService {
@@ -17,8 +17,8 @@ export class CreateTransactionService implements ICreateTransactionService {
     private getAccountByIdRepository: IGetAccountByIdRepository
   ) {}
 
-  async execute(createTransactionParams: CreateTransactionProps, userId: string) {
-    const userExists = this.getUserByIdRepository.execute(userId)
+  async execute(createTransactionParams: CreateTransactionProps) {
+    const userExists = await this.getUserByIdRepository.execute(createTransactionParams.creatorId)
 
     if (!userExists) {
       throw new NotFound('User not found!')
@@ -44,7 +44,10 @@ export class CreateTransactionService implements ICreateTransactionService {
 
     const transactionAmount = convertFromAmountToHundredUnits(createTransactionParams.amount, createTransactionParams.type)
 
-    const transaction = await this.createTransactionRepository.execute({ ...createTransactionParams, amount: transactionAmount })
+    const transaction = await this.createTransactionRepository.execute({
+      ...createTransactionParams,
+      amount: transactionAmount,
+    })
 
     const convertToAmount = convertFromHundredUnitsToAmount(transaction.amount)
 
