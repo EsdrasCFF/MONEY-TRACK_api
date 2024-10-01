@@ -8,12 +8,20 @@ export interface CategoryRankingProps {
 }
 
 export interface IGetCategoryRankingRepository {
-  execute(userId: string, from: Date, to: Date, accountId: string): Promise<CategoryRankingProps[]>
+  execute(userId: string, from: Date, to: Date, accountsId: string[]): Promise<CategoryRankingProps[]>
 }
 
 export class GetCategoryRankingRepository implements IGetCategoryRankingRepository {
-  async execute(userId: string, from: Date, to: Date, accountId: string) {
-    const accountCondition = accountId !== 'all' ? Prisma.sql`AND accounts.id = ${accountId}` : Prisma.empty
+  async execute(userId: string, from: Date, to: Date, accountsId: string[]) {
+    const accountsQuery = accountsId.reduce(
+      (acc, cur, index) => {
+        if (index === 0) {
+          return Prisma.sql`transactions.account_id = ${cur}`
+        }
+        return Prisma.sql`${acc} OR transactions.account_id = ${cur}`
+      },
+      Prisma.sql``
+    )
 
     const result = await db.$queryRaw(Prisma.sql`
       SELECT
@@ -29,8 +37,7 @@ export class GetCategoryRankingRepository implements IGetCategoryRankingReposito
         transactions.type = 'EXPENSE'
         AND transactions.date >= ${from}
         AND transactions.date <= ${to}
-        AND accounts.owner_id = ${userId}
-        ${accountCondition}
+        AND (${accountsQuery})
 
       GROUP BY
         categories.name

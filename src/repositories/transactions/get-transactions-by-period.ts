@@ -10,11 +10,11 @@ type TransactionsWithDetails = Prisma.TransactionGetPayload<{
 }>
 
 export interface IGetTransactionsByPeriodRepository {
-  execute(from: Date, to: Date, userId: string): Promise<TransactionsWithDetails[]>
+  execute(from: Date, to: Date, userId: string, accountsId: string[]): Promise<TransactionsWithDetails[]>
 }
 
 export class GetTransactionByPeriodRepository implements IGetTransactionsByPeriodRepository {
-  async execute(from: Date, to: Date, userId: string) {
+  async execute(from: Date, to: Date, userId: string, accountsId: string[]) {
     const transactions = await db.transaction.findMany({
       include: {
         account: true,
@@ -25,8 +25,8 @@ export class GetTransactionByPeriodRepository implements IGetTransactionsByPerio
           gte: from,
           lte: to,
         },
-        account: {
-          ownerId: userId,
+        accountId: {
+          in: accountsId,
         },
       },
       orderBy: {

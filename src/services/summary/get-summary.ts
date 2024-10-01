@@ -54,30 +54,20 @@ export class GetSummaryService implements IGetSummaryService {
       accountsId = (await this.getAccountsByUserIdRepository.execute(userId)).map((account) => account.id)
     } else {
       accountsId.push(accountId)
+      const accountExists = await this.getAccountByIdRepository.execute(accountId)
+      if (!accountExists) {
+        throw new NotFound('Account not found!')
+      }
     }
-
-    // let accountIdIsValid: string | null = null
-
-    // if (accountId !== 'all') {
-    //   const accountExists = await this.getAccountByIdRepository.execute(accountId)
-
-    //   if (!accountExists) {
-    //     throw new NotFound('Account not found')
-    //   }
-
-    //   accountIdIsValid = accountExists.id
-    // } else {
-    //   accountIdIsValid = null
-    // }
 
     const balance = await this.getUserBalanceRepository.execute(userExists.id, from, to, accountsId) //ok
 
-    const transactions = await this.getTransactionsByPeriodRepository.execute(from, to, userId) //ok
+    const transactions = await this.getTransactionsByPeriodRepository.execute(from, to, userId, accountsId) //ok
 
-    const filteredTransactions =
-      accountId === 'all' ? transactions : transactions.filter((transaction) => transaction.accountId == accountId) //ok
+    // const filteredTransactions =
+    //   accountId === 'all' ? transactions : transactions.filter((transaction) => transaction.accountId == accountId)
 
-    const categoryRanking = await this.getCategoryRankingRepository.execute(userId, from, to, accountId) //ok
+    const categoryRanking = await this.getCategoryRankingRepository.execute(userId, from, to, accountsId)
 
     const formattedBalance = {
       INCOMES: convertFromHundredUnitsToAmount(balance.incomes),
@@ -107,7 +97,7 @@ export class GetSummaryService implements IGetSummaryService {
         ]
       : topCategories
 
-    const transactionTypeTotal = filteredTransactions.reduce(
+    const transactionTypeTotal = transactions.reduce(
       (acc, transaction) => {
         acc[transaction.type] += transaction.amount
 
@@ -116,7 +106,7 @@ export class GetSummaryService implements IGetSummaryService {
       { INCOME: 0, EXPENSE: 0, INVESTMENT: 0 }
     ) //ok
 
-    const formattedTransactions = filteredTransactions
+    const formattedTransactions = transactions
       .map((transaction) => {
         return {
           ...transaction,
