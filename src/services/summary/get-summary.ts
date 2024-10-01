@@ -2,6 +2,7 @@ import { Transaction } from '@prisma/client'
 
 import { convertFromHundredUnitsToAmount } from '@/lib/utils'
 import { IGetAccountByIdRepository } from '@/repositories/accounts/get-account-by-id'
+import { IGetAccountsByUserIdRepository } from '@/repositories/accounts/get-accounts-by-userId'
 import { CategoryRankingProps, IGetCategoryRankingRepository } from '@/repositories/categories/get-category-ranking'
 import { IGetTransactionsByPeriodRepository } from '@/repositories/transactions/get-transactions-by-period'
 import { BalanceParams, IGetUserBalanceRepository } from '@/repositories/users/get-user-balance'
@@ -34,7 +35,8 @@ export class GetSummaryService implements IGetSummaryService {
     private getUserBalanceRepository: IGetUserBalanceRepository,
     private getTransactionsByPeriodRepository: IGetTransactionsByPeriodRepository,
     private getCategoryRankingRepository: IGetCategoryRankingRepository,
-    private getAccountByIdRepository: IGetAccountByIdRepository
+    private getAccountByIdRepository: IGetAccountByIdRepository,
+    private getAccountsByUserIdRepository: IGetAccountsByUserIdRepository
   ) {}
 
   async execute(from: Date, to: Date, accountId: string, userId: string) {
@@ -44,21 +46,31 @@ export class GetSummaryService implements IGetSummaryService {
       throw new NotFound('User not found!')
     }
 
-    let accountIdIsValid: string | null = null
+    const allAccounts = accountId === 'all'
 
-    if (accountId !== 'all') {
-      const accountExists = await this.getAccountByIdRepository.execute(accountId)
+    let accountsId: string[] = []
 
-      if (!accountExists) {
-        throw new NotFound('Account not found')
-      }
-
-      accountIdIsValid = accountExists.id
+    if (allAccounts) {
+      accountsId = (await this.getAccountsByUserIdRepository.execute(userId)).map((account) => account.id)
     } else {
-      accountIdIsValid = null
+      accountsId.push(accountId)
     }
 
-    const balance = await this.getUserBalanceRepository.execute(userExists.id, from, to, accountIdIsValid) //ok
+    // let accountIdIsValid: string | null = null
+
+    // if (accountId !== 'all') {
+    //   const accountExists = await this.getAccountByIdRepository.execute(accountId)
+
+    //   if (!accountExists) {
+    //     throw new NotFound('Account not found')
+    //   }
+
+    //   accountIdIsValid = accountExists.id
+    // } else {
+    //   accountIdIsValid = null
+    // }
+
+    const balance = await this.getUserBalanceRepository.execute(userExists.id, from, to, accountsId) //ok
 
     const transactions = await this.getTransactionsByPeriodRepository.execute(from, to, userId) //ok
 

@@ -10,12 +10,24 @@ export interface BalanceParams {
 }
 
 export interface IGetUserBalanceRepository {
-  execute(userId: string, from: Date, to: Date, accountId: string | null): Promise<BalanceParams>
+  execute(userId: string, from: Date, to: Date, accountsId: string[]): Promise<BalanceParams>
 }
 
 export class GetUserBalanceRepository implements IGetUserBalanceRepository {
-  async execute(userId: string, from: Date, to: Date, accountId: string | null) {
-    const accountCondition = accountId ? Prisma.sql`AND t.account_id  = ${accountId}` : Prisma.empty
+  async execute(userId: string, from: Date, to: Date, accountsId: string[]) {
+    // const accountsCondition = accountId ? Prisma.sql`AND t.account_id  = ${accountId}` : Prisma.empty
+
+    // let accountQuery = accountsId.length == 1 ? Prisma.sql`t.account_id = ${accountsId[0]}` : Prisma.empty
+
+    const accountsQuery = accountsId.reduce(
+      (acc, cur, index) => {
+        if (index === 0) {
+          return Prisma.sql`t.account_id = ${cur}`
+        }
+        return Prisma.sql`${acc} OR t.account_id = ${cur}`
+      },
+      Prisma.sql``
+    )
 
     const result = await db.$queryRaw<BalanceParams[]>(Prisma.sql`
       SELECT 
@@ -29,10 +41,9 @@ export class GetUserBalanceRepository implements IGetUserBalanceRepository {
       JOIN
         accounts a ON t.account_id = a.id
       WHERE
-          a.owner_id = ${userId}
-          AND t.date >= ${from}
+          t.date >= ${from}
           AND t.date <= ${to}
-          ${accountCondition}
+          AND (${accountsQuery})
     `)
 
     const incomes = Number(result[0].incomes)

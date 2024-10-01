@@ -4,6 +4,7 @@ import z from 'zod'
 
 import { GetSummaryController } from '@/controllers/summary/get-summary'
 import { GetAccountByIdRepository } from '@/repositories/accounts/get-account-by-id'
+import { GetAccountsByUserIdRepository } from '@/repositories/accounts/get-accounts-by-userId'
 import { GetCategoryRankingRepository } from '@/repositories/categories/get-category-ranking'
 import { GetTransactionByPeriodRepository } from '@/repositories/transactions/get-transactions-by-period'
 import { GetUserBalanceRepository } from '@/repositories/users/get-user-balance'
@@ -69,13 +70,15 @@ export async function getSummary(app: FastifyInstance) {
       const getTransactionByPeriodRepository = new GetTransactionByPeriodRepository()
       const getCategoryRankingRepository = new GetCategoryRankingRepository()
       const getAccountByIdRepository = new GetAccountByIdRepository()
+      const getAccountsByUserIdRepository = new GetAccountsByUserIdRepository()
 
       const getSummaryService = new GetSummaryService(
         getUserByIdRepository,
         getUserBalanceRepository,
         getTransactionByPeriodRepository,
         getCategoryRankingRepository,
-        getAccountByIdRepository
+        getAccountByIdRepository,
+        getAccountsByUserIdRepository
       )
 
       const getSummaryController = new GetSummaryController(getSummaryService)
