@@ -5,18 +5,18 @@ import { IGetCategoriesByUserIdService } from '@/services/categories/get-categor
 import { BadRequest } from '../../routes/_errors/errors-instance'
 
 export interface IGetCategoriesByUserIdController {
-  execute(userId: string): Promise<Category[]>
+  execute(userId: string, accountId: string | undefined): Promise<Category[]>
 }
 
 export class GetCategoriesByUserIdController implements IGetCategoriesByUserIdController {
   constructor(private getCategoriesByUserIdService: IGetCategoriesByUserIdService) {}
 
-  async execute(userId: string) {
+  async execute(userId: string, accountId: string | undefined | null) {
     if (!userId) {
       throw new BadRequest('User Id is missing or not provided!')
     }
 
-    const categories = await this.getCategoriesByUserIdService.execute(userId)
+    const categories = await this.getCategoriesByUserIdService.execute(userId, accountId ?? undefined)
 
     return categories
   }
