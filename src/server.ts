@@ -31,7 +31,7 @@ import { getUserByEmail } from './routes/users/get-user-by-email'
 import { createUser } from './routes/webhook/clerk/create-user'
 import { updateUser } from './routes/webhook/clerk/update-user'
 
-const app = fastify()
+const app = fastify({ logger: true })
 
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
