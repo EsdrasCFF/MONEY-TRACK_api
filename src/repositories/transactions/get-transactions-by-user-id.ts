@@ -21,7 +21,7 @@ export class GetTransactionsByUserIdRepository implements IGetTransactionsByUser
         },
         date: {
           gte: from,
-          lte: to,
+          lt: to,
         },
       },
       include: {
