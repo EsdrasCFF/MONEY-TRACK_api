@@ -36,7 +36,7 @@ export class GetCategoryRankingRepository implements IGetCategoryRankingReposito
       WHERE 
         transactions.type = 'EXPENSE'
         AND transactions.date >= ${from}
-        AND transactions.date <= ${to}
+        AND transactions.date < ${to}
         AND (${accountsQuery})
 
       GROUP BY
