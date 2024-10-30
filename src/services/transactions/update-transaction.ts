@@ -1,12 +1,28 @@
-import { Transaction } from '@prisma/client'
+import { PAYMENT_METHOD, TRANSACTION_TYPE } from '@prisma/client'
 
 import { convertFromAmountToHundredUnits } from '@/lib/utils'
 import { IGetTransactionByIdRepository } from '@/repositories/transactions/get-transaction-by-id'
 import { IUpdateTransactionRepository, UpdateTransactionProps } from '@/repositories/transactions/update-transaction'
 import { Forbidden, NotFound } from '@/routes/_errors/errors-instance'
 
+export interface TransactionProps {
+  id: string
+  accountId: string
+  paymentMethod: PAYMENT_METHOD | null
+  categoryId: string | null
+  creatorId: string
+  payee: string
+  amount: number
+  type: TRANSACTION_TYPE
+  date: Date
+  description: string | null
+  createdAt: Date
+  updatedAt: Date
+  category: string | null
+}
+
 export interface IUpdateTransactionService {
-  execute(updateTransactionParams: UpdateTransactionProps, userId: string, transactionId: string): Promise<Transaction>
+  execute(updateTransactionParams: UpdateTransactionProps, userId: string, transactionId: string): Promise<TransactionProps>
 }
 
 export class UpdateTransactionService {
@@ -22,7 +38,7 @@ export class UpdateTransactionService {
       throw new NotFound('Transaction not found!')
     }
 
-    if (transactionExists.account.ownerId != userId) {
+    if (transactionExists.creatorId != userId) {
       throw new Forbidden('You do not have permission to update this transaction!')
     }
 
@@ -33,6 +49,13 @@ export class UpdateTransactionService {
       transactionId
     )
 
-    return updatedTransaction
+    const { category, ...otherProps } = updatedTransaction
+
+    const newTransaction = {
+      ...otherProps,
+      category: category?.name || null,
+    }
+
+    return newTransaction
   }
 }

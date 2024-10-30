@@ -1,11 +1,9 @@
-import { Transaction } from '@prisma/client'
-
 import { UpdateTransactionProps } from '@/repositories/transactions/update-transaction'
 import { BadRequest } from '@/routes/_errors/errors-instance'
-import { IUpdateTransactionService } from '@/services/transactions/update-transaction'
+import { IUpdateTransactionService, TransactionProps } from '@/services/transactions/update-transaction'
 
 export interface IUpdateTransactionController {
-  execute(updateTransactionParams: UpdateTransactionProps, userId: string, transactionId: string): Promise<Transaction>
+  execute(updateTransactionParams: UpdateTransactionProps, userId: string, transactionId: string): Promise<TransactionProps>
 }
 
 export class UpdateTransactionController implements IUpdateTransactionController {

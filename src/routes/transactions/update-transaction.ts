@@ -51,6 +51,7 @@ export async function updateTransaction(app: FastifyInstance) {
               type: z.enum(['INCOME', 'EXPENSE', 'INVESTMENT']),
               date: z.date(),
               description: z.string().nullable(),
+              category: z.string().nullable(),
             }),
           }),
         },
