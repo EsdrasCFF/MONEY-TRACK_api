@@ -1,5 +1,4 @@
 import { Transaction } from '@prisma/client'
-import { addDays } from 'date-fns'
 
 import { convertFromHundredUnitsToAmount } from '@/lib/utils'
 import { IGetAccountByIdRepository } from '@/repositories/accounts/get-account-by-id'
@@ -43,8 +42,6 @@ export class GetSummaryService implements IGetSummaryService {
   async execute(from: Date, to: Date, accountId: string, userId: string) {
     const userExists = await this.getUserByIdRepository.execute(userId)
 
-    const correctTo = addDays(to, 1)
-
     if (!userExists) {
       throw new NotFound('User not found!')
     }
@@ -63,14 +60,11 @@ export class GetSummaryService implements IGetSummaryService {
       }
     }
 
-    const balance = await this.getUserBalanceRepository.execute(userExists.id, from, correctTo, accountsId) //ok
+    const balance = await this.getUserBalanceRepository.execute(userExists.id, from, to, accountsId) //ok
 
-    const transactions = await this.getTransactionsByPeriodRepository.execute(from, correctTo, userId, accountsId) //ok
+    const transactions = await this.getTransactionsByPeriodRepository.execute(from, to, userId, accountsId) //ok
 
-    // const filteredTransactions =
-    //   accountId === 'all' ? transactions : transactions.filter((transaction) => transaction.accountId == accountId)
-
-    const categoryRanking = await this.getCategoryRankingRepository.execute(userId, from, correctTo, accountsId)
+    const categoryRanking = await this.getCategoryRankingRepository.execute(userId, from, to, accountsId)
 
     const formattedBalance = {
       INCOMES: convertFromHundredUnitsToAmount(balance.incomes),

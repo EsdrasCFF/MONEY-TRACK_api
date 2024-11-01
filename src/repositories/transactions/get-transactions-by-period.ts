@@ -23,7 +23,7 @@ export class GetTransactionByPeriodRepository implements IGetTransactionsByPerio
       where: {
         date: {
           gte: from,
-          lt: to,
+          lte: to,
         },
         accountId: {
           in: accountsId,

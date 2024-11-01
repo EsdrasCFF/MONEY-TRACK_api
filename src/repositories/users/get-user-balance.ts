@@ -41,8 +41,8 @@ export class GetUserBalanceRepository implements IGetUserBalanceRepository {
       JOIN
         accounts a ON t.account_id = a.id
       WHERE
-          t.date >= ${from}
-          AND t.date < ${to}
+          DATE(t.date) >= DATE(${from})
+          AND DATE(t.date) <= DATE(${to})
           AND (${accountsQuery})
     `)
 

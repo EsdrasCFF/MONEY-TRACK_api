@@ -8,8 +8,10 @@ export class GetSummaryController {
     if (!from || !to || !userId) {
       throw new BadRequest('Required params ware not provided')
     }
+    const correctFrom = new Date(from.setUTCHours(3))
+    const correctTo = new Date(to.setUTCHours(3))
 
-    const result = await this.getSummaryService.execute(from, to, accountId ?? 'all', userId)
+    const result = await this.getSummaryService.execute(correctFrom, correctTo, accountId ?? 'all', userId)
 
     return result
   }

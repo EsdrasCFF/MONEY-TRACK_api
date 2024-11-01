@@ -18,10 +18,10 @@ export class GetTransactionsByUserIdController implements IGetTransactionsByUser
     }
 
     const defaultTo = new Date()
-    const defaultFrom = startOfMonth(defaultTo)
+    const defaultFrom = new Date(startOfMonth(defaultTo).setUTCHours(3))
 
-    const fromDate = from ?? defaultFrom
-    const toDate = to ?? defaultTo
+    const fromDate = from ? new Date(from.setUTCHours(3)) : defaultFrom
+    const toDate = to ? new Date(to.setUTCHours(3)) : defaultTo
 
     const transactions = await this.getTransactionsByUserIdService.execute(userId, fromDate, toDate, accountId)
 

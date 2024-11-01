@@ -1,5 +1,3 @@
-import { addDays } from 'date-fns'
-
 import { convertFromHundredUnitsToAmount } from '@/lib/utils'
 import { IGetAccountsByUserIdRepository } from '@/repositories/accounts/get-accounts-by-userId'
 import { IGetTransactionsByUserIdRepository, TransactionWithCategory } from '@/repositories/transactions/get-transactions-by-user-id'
@@ -35,9 +33,7 @@ export class GetTransactionsByUserIdService implements IGetTransactionsByUserIdS
       accountsId.push(accountId)
     }
 
-    const correctTo = addDays(to, 1)
-
-    const transactions = await this.getTransactionsByUserIdRepository.execute(userId, from, correctTo, accountsId)
+    const transactions = await this.getTransactionsByUserIdRepository.execute(userId, from, to, accountsId)
 
     const converTransactionsToAmount = transactions.map((transaction) => ({
       ...transaction,
