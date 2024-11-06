@@ -33,6 +33,7 @@ model Account {
   name String
   ownerId String @map("owner_id")
   balance Float @default(0)
+  initialBalance Int @default(0) @map("initial_balance")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
