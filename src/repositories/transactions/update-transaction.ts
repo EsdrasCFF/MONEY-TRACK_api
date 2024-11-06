@@ -30,12 +30,12 @@ interface TransactionProps {
 }
 
 export interface IUpdateTransactionRepository {
-  execute(updateTransactionParams: UpdateTransactionProps, transactionId: string): Promise<TransactionProps>
+  execute(updateTransactionParams: UpdateTransactionProps, transactionId: string, increaseBalance: number): Promise<TransactionProps>
 }
 
 export class UpdateTransactionRepository implements IUpdateTransactionRepository {
-  async execute(updateTransactionParams: UpdateTransactionProps, transactionId: string) {
-    const updatedAccount = await db.transaction.update({
+  async execute(updateTransactionParams: UpdateTransactionProps, transactionId: string, increaseBalance: number) {
+    const updatedTransaction = await db.transaction.update({
       data: updateTransactionParams,
       where: {
         id: transactionId,
@@ -49,6 +49,17 @@ export class UpdateTransactionRepository implements IUpdateTransactionRepository
       },
     })
 
-    return updatedAccount
+    await db.account.update({
+      where: {
+        id: updatedTransaction.accountId,
+      },
+      data: {
+        balance: {
+          increment: increaseBalance,
+        },
+      },
+    })
+
+    return updatedTransaction
   }
 }

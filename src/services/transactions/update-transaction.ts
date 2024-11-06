@@ -44,9 +44,12 @@ export class UpdateTransactionService {
 
     const transactionAmount = convertFromAmountToHundredUnits(updateTransactionParams.amount, transactionExists.type)
 
+    const increateBalance = transactionAmount - transactionExists.amount
+
     const updatedTransaction = await this.updateTransactionRepository.execute(
       { ...updateTransactionParams, amount: transactionAmount },
-      transactionId
+      transactionId,
+      increateBalance
     )
 
     const { category, ...otherProps } = updatedTransaction
