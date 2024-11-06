@@ -1,5 +1,7 @@
 import { Account } from '@prisma/client'
 
+import { convertFromHundredUnitsToAmount } from '@/lib/utils'
+
 import { IGetAccountsByUserIdRepository } from '../../repositories/accounts/get-accounts-by-userId'
 import { IGetUserByIdRepository } from '../../repositories/users/get-user-by-id'
 import { NotFound } from '../../routes/_errors/errors-instance'
@@ -23,6 +25,17 @@ export class GetAccountsByUserIdService implements IGetAccountsByUserIdService {
 
     const accounts = await this.getAccountsByUserIdRepository.execute(userId)
 
-    return accounts
+    const accountsWithBalance = accounts.map((account) => {
+      const balance = convertFromHundredUnitsToAmount(account.balance)
+      const initialBalance = convertFromHundredUnitsToAmount(account.initialBalance)
+
+      return {
+        ...account,
+        balance,
+        initialBalance,
+      }
+    })
+
+    return accountsWithBalance
   }
 }

@@ -24,6 +24,8 @@ export async function getAccounts(app: FastifyInstance) {
                 id: z.string(),
                 name: z.string(),
                 ownerId: z.string(),
+                balance: z.number(),
+                initialBalance: z.number(),
               })
             ),
           }),
