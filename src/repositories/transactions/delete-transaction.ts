@@ -14,6 +14,17 @@ export class DeleteTransactionRepository implements IDeleteTransactionRepository
       },
     })
 
+    await db.account.update({
+      where: {
+        id: deletedAccount.accountId,
+      },
+      data: {
+        balance: {
+          increment: deletedAccount.amount,
+        },
+      },
+    })
+
     return deletedAccount
   }
 }
