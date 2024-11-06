@@ -24,6 +24,17 @@ export class CreateTransactionRepository implements ICreateTransactionRepository
       data: createTransactionParams,
     })
 
+    await db.account.update({
+      where: {
+        id: createTransactionParams.accountId,
+      },
+      data: {
+        balance: {
+          increment: createTransactionParams.amount,
+        },
+      },
+    })
+
     const amountNumber = Number(transaction.amount)
 
     return { ...transaction, amount: amountNumber }
