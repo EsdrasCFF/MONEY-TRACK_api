@@ -20,7 +20,7 @@ export class DeleteTransactionRepository implements IDeleteTransactionRepository
       },
       data: {
         balance: {
-          increment: deletedAccount.amount,
+          increment: deletedAccount.amount * -1,
         },
       },
     })

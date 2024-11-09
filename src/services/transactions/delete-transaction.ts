@@ -21,7 +21,7 @@ export class DeleteTransactionService implements IDeleteTransactionService {
       throw new NotFound('Transaction not found')
     }
 
-    if (userId != transactionExists.account.userId) {
+    if (userId != transactionExists.account.ownerId) {
       throw new BadRequest('UserId provided is not valid!')
     }
 
